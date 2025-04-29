@@ -10,45 +10,207 @@ import TipsAndUpdatesTwoToneIcon from '@mui/icons-material/TipsAndUpdatesTwoTone
 import ListCard from './ListCard';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
+import confetti from 'canvas-confetti';
 
-const ImageUploadCard = ({ imageData, handleDrop, handleImageSubmit, handleQuestion }) => (
-  <Box className="modal">
-    <Box className="image-title">
-      <h3>Upload Your Image</h3>
-      <p>Please upload an image or skip this step</p>
-    </Box>
-    <Box
-      className="drag-drop-area"
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={handleDrop}
-    >
-      {imageData ? (
-        <img src={imageData} alt="Preview" className='uploaded-image' />
-      ) : (
-        <p style={{ fontSize: '30px'}}>
-        <AddAPhotoOutlinedIcon style={{ fontSize: '40px', }}/> Drag and drop an image here, or click to upload
-        </p>
-      )}
-    </Box>
-    <Divider orientation="horizontal">OR </Divider>
-    <Box className='image-text'>
-      <Input placeholder="Paste your image link" variant="soft" size="lg" style ={{ height: '50px', marginTop: '20px'}}>
-      </Input>
-      <Box style={{marginTop:'20px', textAlign:'right'}}>
-      <button className='hidden'><InstagramIcon style={{ fontSize: '40px', color: '#000'}}/></button>
-      <button className='hidden'><PinterestIcon style={{ fontSize: '40px', color: '#000'}}/></button>
+
+let confettiInstance;
+
+export function initConfettiCanvas() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'confetti-canvas';
+  canvas.style.position = 'fixed';
+  canvas.style.top = 0;
+  canvas.style.left = 0;
+  canvas.style.width = '100vw';
+  canvas.style.height = '100vh';
+  canvas.style.zIndex = '99999'; // super high
+  canvas.style.pointerEvents = 'none';
+  document.body.appendChild(canvas);
+
+  confettiInstance = confetti.create(canvas, { resize: true, useWorker: true });
+}
+
+function launchFireworks() {
+
+  const duration = 2 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 99999 };
+
+  const interval = setInterval(() => {
+    const timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      return;
+    }
+
+    const particleCount = 50 * (timeLeft / duration);
+
+    // Launch from random spots
+    confetti({
+      ...defaults,
+      particleCount,
+      origin: {
+        x: Math.random(),
+        y: Math.random() * 0.6
+      }
+    });
+  }, 250);
+}
+
+const canvas = document.querySelector('canvas');
+if (canvas) {
+  canvas.style.zIndex = '9999';
+  canvas.style.pointerEvents = 'none';
+}
+
+const PriceSelectionCard = ({ handleQuestion }) =>{
+  // ✅ Dummy handler for now
+  const handlePriceSelect = (price) => {
+    console.log(`🛠️ Dummy selected price: $${price}`);
+    alert(`Selected price: $${price}`);
+  };
+  return (
+      <Box
+          style={{
+            width: '700px',
+            height: '700px',
+            borderRadius: '15px',
+            overflow: 'hidden',
+            boxShadow: '0px 8px 20px rgba(0,0,0,0.15)',
+            margin: 'auto',
+            marginTop: '50px',
+            animation: 'fadeIn 1s ease' // smooth entry animation
+          }}
+      >
+        {/* Top Half - Teal Gradient Background */}
+        <Box
+            style={{
+              background: 'linear-gradient(135deg, #008080, #20c997)',
+              height: '30%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: 'white',
+              padding: '20px',
+            }}
+        >
+          <h3 style={{ fontSize: '38px', fontWeight: '600', margin: '0', justifyContent: 'center' }}> Your Mystery Domain Box Awaits!
+          </h3>
+          <p style={{ fontSize: '22px', marginTop: '10px' }}>
+            Pick a price to unlock your surprise 🌟
+          </p>
+        </Box>
+
+        {/* Bottom Half - White */}
+        <Box
+            style={{
+              backgroundColor: 'white',
+              height: 'auto',
+              padding: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottomLeftRadius: '15px',
+              borderBottomRightRadius: '15px',
+              gap: '20px',
+              fontSize: '100px'
+            }}
+        >
+          {/* Price Buttons */}
+          <Box style={{ display: 'flex', gap: '40px' }}>
+            <button
+                className="button price-button"
+                onClick={() => handlePriceSelect(15)}
+                style={priceButtonStyle}
+                style = {{fontSize: '30px',
+                  borderRadius: '12px'}}
+            >
+              $15
+            </button>
+
+            <button
+                className="button price-button"
+                onClick={() => handlePriceSelect(25)}
+                style={priceButtonStyle}
+                style = {{fontSize: '30px',
+                  borderRadius: '12px'}}
+            >
+              $25
+            </button>
+
+            <button
+                className="button price-button"
+                onClick={() => handlePriceSelect(35)}
+                style={priceButtonStyle}
+                style = {{fontSize: '30px',
+                  borderRadius: '12px'}}
+            >
+              $35
+            </button>
+          </Box>
+
+          {/* Surprise Me Button */}
+          <button
+              className="button image-button"
+              onClick={() => {launchFireworks()}}
+              style={{ float: "right" }}
+              style={surpriseButtonStyle}
+          >
+            🎁 Surprise Me
+          </button>
+        </Box>
       </Box>
-      </Box>
-    <Box className='footer'>
-      <button className='button image-button' style={{ float: "right" }} onClick={handleQuestion}>
-        Skip
-      </button>
-      <button className='button image-button' style={{ float: "right" }} onClick={handleImageSubmit}>
-        Next
-      </button>
-    </Box>
-  </Box>
-);
+  );
+};
+
+// Styling for the Price Buttons
+const priceButtonStyle = {
+  background: 'black',
+  color: 'white',
+  border: 'none',
+  borderRadius: '10px',
+  padding: '10px 20px',
+  fontSize: '18px',
+  cursor: 'pointer',
+  transition: 'transform 0.2s ease, background 0.3s ease',
+};
+
+const surpriseButtonStyle = {
+  backgroundColor: '#20c997',
+  color: 'white',
+  border: 'none',
+  borderRadius: '10px',
+  fontSize: '18px',
+  padding: '12px 30px',
+  cursor: 'pointer',
+  marginTop: '10px',
+  transition: 'transform 0.3s ease, background-color 0.3s ease',
+};
+
+// Add this CSS into your global styles or inside your file (CSS-in-JS)
+const styleSheet = document.createElement("style");
+styleSheet.innerText = `
+  .button.price-button:hover {
+    transform: scale(1.1);
+    background: #333;
+  }
+  
+  .button.image-button:hover {
+    background-color: #17a2b8;
+    transform: scale(1.05);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+`;
+document.head.appendChild(styleSheet);
+
+
 
 const QuestionCard = ({ question, options, handleOptionClick, progress}) => (
   <Box className='modal question-card'>
@@ -331,8 +493,7 @@ const App = () => {
 
         <Modal open={open} onClose={handleClose} className='modal-container'>
                   {image ? (
-                      <ImageUploadCard imageData={imageData} handleDrop={handleDrop}
-                                       handleImageSubmit={handleImageSubmit} handleQuestion={handleQuestion}/>
+                      <PriceSelectionCard />
                   ) : userInput ? (
                           <UserInput handleSend={handleSendMessage}/>
                       )
