@@ -41,10 +41,10 @@ body {
   margin: 0;
   padding: 0;
   background-image: url("./bg.png");
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  margin-top: 100px;
+  /*margin-top: 100px;*/
   height: 100vh;
   width: 100vw;
   overflow: hidden; /* Prevent scrollbars */
@@ -332,136 +332,11 @@ body {
   background-color: #fff;
 }
 
-.merrywrap {
-  position: absolute;
-  right: 0px;
-  left: 1256px;
-  bottom: 0px;
-  top: 221px;
-  transition: background-color 0.5s ease;
-  /*border-radius: 24px;*/
-}
-
-.merrywrap img {
-  object-fit: cover;
+.mysteryBox img {
   border-radius: 24px;
   position: absolute;
-  height: 535px;
-  width: 401px;
-  right: 0px;
-  left: 0px;
-  bottom: 0px;
-  top: 0px;
-}
-
-.giftbox {
-  position: absolute;
-  width: 300px;
-  height: 200px;
-  left: 50%;
-  margin-left: -150px;
-  bottom: 150px;
-  z-index: 10;
-
-  & > div {
-    background: #34495e;
-    position: absolute;
-
-    &:after, &:before {
-      position: absolute;
-      content: "";
-      top: 0;
-    }
-  }
-
-  &:after {
-    position: absolute;
-    color: #fff;
-    width: 100%;
-    content: "Click Me!";
-    left: 0;
-    bottom: 0;
-    font-size: 24px;
-    text-align: center;
-    transform: rotate(-20deg);
-    transform-origin: 0 0;
-  }
-
-  .cover {
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 25%;
-    z-index: 2;
-
-    &:before {
-      position: absolute;
-      height: 100%;
-      left: 50%;
-      width: 50px;
-      transform: translateX(-50%);
-      background: #fdc56d;
-    }
-
-    & > div {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      left: 50%;
-      top: -50px;
-      transform: translateX(-50%);
-
-      &:before, &:after {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        content: "";
-        box-shadow: inset 0 0 0 15px #fdc56d;
-        border-radius: 30px;
-        transform-origin: 50% 100%;
-      }
-
-      &:before {
-        transform: translateX(-45%) skewY(40deg);
-      }
-
-      &:after {
-        transform: translateX(45%) skewY(-40deg);
-      }
-    }
-  }
-
-  .box{
-    right:5%;
-    left:5%;
-    height:80%;
-    bottom: 0;
-    &:before{
-      width:50px;
-      height:100%;
-      left:50%;
-      transform:translateX(-50%);
-      background:#fdc56d;
-    }
-    &:after{
-      width:100%;
-      height:30px;
-      transform:translateX(-50%);
-      background:rgba(0,0,0,0.2);
-    }
-  }
-}
-
-.giftbox.wobble {
-  animation: wobble 0.5s ease forwards;
-}
-
-@keyframes wobble {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(5deg); }
-  50% { transform: rotate(-5deg); }
-  75% { transform: rotate(3deg); }
-  100% { transform: rotate(0deg); }
+  top: 23.5%;
+  left: 73%;
+  width: 23.5vw;
+  height: 57.5vh;
 }
