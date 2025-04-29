@@ -1,0 +1,101 @@
+
+.app {
+  text-align: center;
+  padding: 20px;
+}
+.question-container {
+  margin: 20px auto;
+  max-width: 900px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.question-text {
+  font-size: 1.4rem;
+  margin-bottom: 40px; /* Increased space between question and options */
+  color: #555;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px; /* Increased space between the options */
+}
+
+.option-card {
+  position: relative; /* Required for pseudo-elements */
+  background-color: #fff;
+  border: 2px solid #47DDE0;
+  border-radius: 10px;
+  height: 300px; /* Fixed height */
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Horizontally center the text */
+  align-items: center; /* Vertically center the text */
+  text-align: center; /* Center-align multi-line text */
+  font-size: 1.3rem; /* Increased font size for better readability */
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 48%;
+  overflow: hidden; /* Ensures the fill effect doesn't spill outside the card */
+}
+
+.option-card:hover {
+  animation: hoverEffect 0.3s forwards;
+  color: white;
+  transform: translateY(-5px);
+  transition: 0.5s;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.option-left {
+  align-self: flex-start;
+}
+
+.option-right {
+  align-self: flex-end;
+}
+
+/* Animation effects */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-out;
+}
+
+@keyframes hoverEffect {
+  from {
+    background-color: #fff;
+  }
+  to {
+    background-color: #47DDE0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
