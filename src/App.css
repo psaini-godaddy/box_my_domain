@@ -338,24 +338,20 @@ body {
   left: 1256px;
   bottom: 0px;
   top: 221px;
-  height: 535px;
-  width: 401px;
   transition: background-color 0.5s ease;
-  border-radius: 24px;
+  /*border-radius: 24px;*/
 }
 
 .merrywrap img {
-  width: 300px; /* Set the desired width */
-  height: 200px; /* Set the desired height */
-  object-fit: cover; /* Optional: Ensures the image fits within the dimensions */
-    border-radius: 24px;
-    position: absolute;
-    height: 535px;
-    width: 401px;
-    right: 0px;
-    left: 0px;
-    bottom: 0px;
-    top: 0px;
+  object-fit: cover;
+  border-radius: 24px;
+  position: absolute;
+  height: 535px;
+  width: 401px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  top: 0px;
 }
 
 .giftbox {
