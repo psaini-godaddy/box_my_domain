@@ -333,7 +333,10 @@ const UserInput = ({ handleQuestion, price }) => {
                         borderRadius: '5px',
                         cursor: 'pointer',
                     }}
-                    onClick={() => console.log('Go button clicked!')}
+                    onClick={() => {
+                        console.log('Go button clicked!');
+                        console.log(`Price selected: $${price}`);
+                    }}
                 >
                     Go
                 </button>
