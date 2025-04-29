@@ -77,9 +77,8 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
             height: '700px',
             borderRadius: '15px',
             overflow: 'hidden',
-            boxShadow: '0px 8px 20px rgba(0,0,0,0.15)',
             margin: 'auto',
-            marginTop: '50px',
+            marginTop: '100px',
             animation: 'fadeIn 1s ease' // smooth entry animation
           }}
       >
