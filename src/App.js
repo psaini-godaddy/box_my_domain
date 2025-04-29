@@ -283,6 +283,7 @@ const handleConfirm = () => {
     console.log(`Price selected: $${price}`);
     launchFireworks();
     setOpenConfirm(false);
+    handleSendMessage(price);
     // Add payment logic here
 };
 const handleCancel = () => {
@@ -423,10 +424,12 @@ const UserInput = ({ handleQuestion, price }) => {
     setUserInput(false);
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/chat', {
-        message: userOption,
-        textInput: text
-      }, { withCredentials: true });
+      // const response = await axios.post('http://localhost:5000/chat', {
+      //   message: userOption,
+      //   textInput: text
+      // }, { withCredentials: true });
+
+        const response = { data: { content: { chat: "Dummy question?", options: ["Option 1", "Option 2"], recommended_domains: null }, isLast: false } };
 
       const data = response.data;
       if (data.content.options && typeof data.content.options === 'object') {
