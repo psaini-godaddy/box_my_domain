@@ -274,6 +274,14 @@ const DomainTestCard = ({handleQuestion, handleClose}) => (
     </Box>
 );
 
+const confirmPayment = (price) => {
+    const confirmPayment = window.confirm(`Do you want to pay $${price}?`);
+    if (confirmPayment) {
+        console.log('Go button clicked!');
+        console.log(`Price selected: $${price}`);
+        // Add payment logic here
+    }
+}
 const UserInput = ({ handleQuestion, price }) => {
     return (
         <Box
@@ -315,8 +323,6 @@ const UserInput = ({ handleQuestion, price }) => {
                         fontSize: '16px',
                         padding: '5px',
                         marginTop: '10px',
-                        border: '1px solid #ccc',
-                        borderRadius: '4px',
                         outline: 'none',
                     }}
                 />
@@ -334,14 +340,12 @@ const UserInput = ({ handleQuestion, price }) => {
                         cursor: 'pointer',
                     }}
                     onClick={() => {
-                        console.log('Go button clicked!');
-                        console.log(`Price selected: $${price}`);
+                        confirmPayment(price);
                     }}
                 >
                     Go
                 </button>
             </Box>
-
             {/* Bottom Half - White */}
             <Box
                 style={{
@@ -361,7 +365,10 @@ const UserInput = ({ handleQuestion, price }) => {
                 {/* Surprise Me Button */}
                 <button
                     className="button image-button"
-                    onClick={() => {launchFireworks()}}
+                    onClick={() => {
+                        confirmPayment(price);
+                        launchFireworks()
+                    }}
                     style={{ float: "right" }}
                     style={surpriseButtonStyle}
                 >
