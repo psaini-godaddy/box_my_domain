@@ -166,7 +166,7 @@ const App = () => {
   const [userOption, setUserOption] = useState(null);
 
   const handleOpen = async () => {
-    document.querySelector('#merrywrap img').src = '/gold_box_after.webp';
+    document.querySelector('#merrywrap img').src = '/gold_box_after.png';
     setTimeout(() => {
       setOpen(true);
     }, 300);
