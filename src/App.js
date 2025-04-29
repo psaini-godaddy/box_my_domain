@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, CircularProgress } from '@mui/material';
+import { Modal, Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress } from '@mui/material';
 import {Button, Input, Divider} from '@mui/joy';
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import { useSpring, animated } from '@react-spring/web';
@@ -70,6 +70,7 @@ const App = () => {
     const [imageRaw, setImageRaw] = useState(null);
     const [imageFlag, setImageFlag] = useState(false);
     const [price, setPrice] = useState(null);
+    const [openConfirm, setOpenConfirm] = useState(false);
 
 const canvas = document.querySelector('canvas');
 if (canvas) {
@@ -275,13 +276,18 @@ const DomainTestCard = ({handleQuestion, handleClose}) => (
 );
 
 const confirmPayment = (price) => {
-    const confirmPayment = window.confirm(`Do you want to pay $${price}?`);
-    if (confirmPayment) {
-        console.log('Go button clicked!');
-        console.log(`Price selected: $${price}`);
-        // Add payment logic here
-    }
+    setOpenConfirm(true);
 }
+const handleConfirm = () => {
+    console.log('Payment confirmed!');
+    console.log(`Price selected: $${price}`);
+    launchFireworks();
+    setOpenConfirm(false);
+    // Add payment logic here
+};
+const handleCancel = () => {
+    setOpenConfirm(false);
+};
 const UserInput = ({ handleQuestion, price }) => {
     return (
         <Box
@@ -345,6 +351,16 @@ const UserInput = ({ handleQuestion, price }) => {
                 >
                     Go
                 </button>
+                <Dialog open={openConfirm} onClose={handleCancel}>
+                    <DialogTitle>Confirm Payment</DialogTitle>
+                    <DialogContent>
+                        <Typography>Do you want to pay ${price}?</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCancel} color="secondary">Cancel</Button>
+                        <Button onClick={handleConfirm} color="primary">Confirm</Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
             {/* Bottom Half - White */}
             <Box
@@ -367,7 +383,6 @@ const UserInput = ({ handleQuestion, price }) => {
                     className="button image-button"
                     onClick={() => {
                         confirmPayment(price);
-                        launchFireworks()
                     }}
                     style={{ float: "right" }}
                     style={surpriseButtonStyle}
