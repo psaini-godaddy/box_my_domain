@@ -328,7 +328,7 @@ const App = () => {
   const [userOption, setUserOption] = useState(null);
 
   const handleOpen = async () => {
-    document.querySelector('#mysteryBox img').src = '/gold_box_after.png';
+    document.querySelector('#merrywrap img').src = '/gold_box_after.png';
     setTimeout(() => {
       setOpen(true);
     }, 900);
@@ -487,7 +487,7 @@ const App = () => {
 
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
-        <div id="mysteryBox" className="mysteryBox">
+        <div id="merrywrap" className="merrywrap">
           <img src="/gold_box_3.png" alt="Gold Box Before" onClick={handleOpen}/>
         </div>
 
