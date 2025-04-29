@@ -395,10 +395,6 @@ const UserInput = ({ handleQuestion, price }) => {
     );
 };
 
-
-
-
-
   const questionCardAnimation = useSpring({
     opacity: loading,
     transform: loading ? 'translateY(-20px)' : 'translateY(0)',
