@@ -164,14 +164,13 @@ const App = () => {
     config: { duration: 500 },
   });
   const [userOption, setUserOption] = useState(null);
-  const [wobble, setWobble] = useState(false);
 
   const handleOpen = async () => {
-      setWobble(true);
-      setTimeout(() => {
-          setWobble(false);
-          setOpen(true);
-      }, 500); // Match the wobble animation duration
+    document.querySelector('#merrywrap img').src = '/gold_box_after.webp';
+    setTimeout(() => {
+      setOpen(true);
+    }, 300);
+
   };
 
   const handleClose = () => {
@@ -326,15 +325,11 @@ const App = () => {
 
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
-          <div id="merrywrap" className="merrywrap">
-             <div className={`giftbox ${wobble ? 'wobble' : ''}`} onClick={handleOpen}>
-                  <div className="cover">
-                      <div></div>
-                  </div>
-                  <div className="box"></div>
-              </div>
-          </div>
-          <Modal open={open} onClose={handleClose} className='modal-container'>
+        <div id="merrywrap" className="merrywrap">
+          <img src="/gold_box_before.webp" alt="Gold Box Before" onClick={handleOpen}/>
+        </div>
+
+        <Modal open={open} onClose={handleClose} className='modal-container'>
                   {image ? (
                       <ImageUploadCard imageData={imageData} handleDrop={handleDrop}
                                        handleImageSubmit={handleImageSubmit} handleQuestion={handleQuestion}/>
