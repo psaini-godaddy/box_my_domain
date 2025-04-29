@@ -12,7 +12,6 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import confetti from 'canvas-confetti';
 
-
 let confettiInstance;
 
 export function initConfettiCanvas() {
@@ -57,6 +56,20 @@ function launchFireworks() {
     });
   }, 250);
 }
+const App = () => {
+    const [open, setOpen] = useState(false);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [optionClicked, setOptionClicked] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(5);
+    const [imageData, setImageData] = useState(null);
+    const [showDomainTestPopup, setShowDomainTestPopup] = useState(false);
+    const [image, setImage] = useState(true);
+    const [userInput, setUserInput] = useState(false);
+    const [isLast, setIsLast] = useState(false);
+    const [imageRaw, setImageRaw] = useState(null);
+    const [imageFlag, setImageFlag] = useState(false);
+    const [price, setPrice] = useState(null);
 
 const canvas = document.querySelector('canvas');
 if (canvas) {
@@ -64,12 +77,14 @@ if (canvas) {
   canvas.style.pointerEvents = 'none';
 }
 
+const handlePriceSelect = (selectedPrice) => {
+    setPrice(selectedPrice); // Set the selected price
+    setUserInput(true); // Show the UserInput component
+    setImage(false); // Hide the PriceSelectionCard
+};
+
 const PriceSelectionCard = ({ handleQuestion }) =>{
   // ✅ Dummy handler for now
-  const handlePriceSelect = (price) => {
-    console.log(`🛠️ Dummy selected price: $${price}`);
-    alert(`Selected price: $${price}`);
-  };
   return (
       <Box
           style={{
@@ -106,7 +121,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
         <Box
             style={{
               backgroundColor: 'white',
-              height: 'auto',
+              height: '30%',
               padding: '20px',
               display: 'flex',
               flexDirection: 'column',
@@ -125,6 +140,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                 onClick={() => handlePriceSelect(15)}
                 style={priceButtonStyle}
                 style = {{fontSize: '30px',
+                  marginTop: '80px',
                   borderRadius: '12px'}}
             >
               $15
@@ -135,6 +151,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                 onClick={() => handlePriceSelect(25)}
                 style={priceButtonStyle}
                 style = {{fontSize: '30px',
+                  marginTop: '80px',
                   borderRadius: '12px'}}
             >
               $25
@@ -145,21 +162,12 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                 onClick={() => handlePriceSelect(35)}
                 style={priceButtonStyle}
                 style = {{fontSize: '30px',
+                  marginTop: '80px',
                   borderRadius: '12px'}}
             >
               $35
             </button>
           </Box>
-
-          {/* Surprise Me Button */}
-          <button
-              className="button image-button"
-              onClick={() => {launchFireworks()}}
-              style={{ float: "right" }}
-              style={surpriseButtonStyle}
-          >
-            🎁 Surprise Me
-          </button>
         </Box>
       </Box>
   );
@@ -185,7 +193,7 @@ const surpriseButtonStyle = {
   fontSize: '18px',
   padding: '12px 30px',
   cursor: 'pointer',
-  marginTop: '10px',
+  marginTop: '80px',
   transition: 'transform 0.3s ease, background-color 0.3s ease',
 };
 
@@ -266,59 +274,105 @@ const DomainTestCard = ({handleQuestion, handleClose}) => (
     </Box>
 );
 
-const UserInput = ({ handleSend }) => {
-  const [message, setMessage] = useState('');
-
-  const handleInputChange = (event) => {
-    setMessage(event.target.value);
-  };
-
-  const handleSendClick = () => {
-    handleSend(message);
-    setMessage('');
-  };
-
-  return (
-      <Box className='modal'>
-        <Box className='text-title'>
-          <img src="/pic.png" className="info-icon" />
-        </Box>
-        <Box className='input-container'>
-          <input
-              type='text'
-              value={message}
-              onChange={handleInputChange}
-              placeholder=' Spill the tea—why are you here?'
-              className='text-input'/>
-          <div>
-            <button
-                className="button text-button"
-                onClick={handleSendClick}
+const UserInput = ({ handleQuestion, price }) => {
+    return (
+        <Box
+            style={{
+                width: '700px',
+                height: '700px',
+                borderRadius: '15px',
+                overflow: 'hidden',
+                margin: 'auto',
+                marginTop: '100px',
+                animation: 'fadeIn 1s ease' // smooth entry animation
+            }}
+        >
+            {/* Top Half - Teal Gradient Background */}
+            <Box
+                style={{
+                    background: 'linear-gradient(135deg, #008080, #20c997)',
+                    height: '30%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    color: 'white',
+                    padding: '20px',
+                }}
             >
-              Send
-            </button>
-          </div>
-        </Box>
-        <Box className='footer'>
+                <h3 style={{fontSize: '38px', fontWeight: '600', margin: '0', justifyContent: 'center'}}> Your Mystery
+                    Domain Box Awaits!
+                </h3>
+                <p style={{fontSize: '22px', marginTop: '10px'}}>
+                    Enter some keywords for your ${price} box
+                </p>
+                <input
+                    type="text"
+                    placeholder="Type your keywords here..."
+                    style={{
+                        width: '80%',
+                        height: '40px',
+                        fontSize: '16px',
+                        padding: '5px',
+                        marginTop: '10px',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                        outline: 'none',
+                    }}
+                />
+                <button
+                    className="button"
+                    style={{
+                        marginTop: '20px',
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        color: '#fff',
+                        backgroundColor: '#111111',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => console.log('Go button clicked!')}
+                >
+                    Go
+                </button>
+            </Box>
 
+            {/* Bottom Half - White */}
+            <Box
+                style={{
+                    backgroundColor: 'white',
+                    height: '30%',
+                    padding: '20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    borderBottomLeftRadius: '15px',
+                    borderBottomRightRadius: '15px',
+                    gap: '20px',
+                    fontSize: '100px'
+                }}
+            >
+                {/* Surprise Me Button */}
+                <button
+                    className="button image-button"
+                    onClick={() => {launchFireworks()}}
+                    style={{ float: "right" }}
+                    style={surpriseButtonStyle}
+                >
+                    🎁 Surprise Me
+                </button>
+            </Box>
         </Box>
-      </Box>
-  );
+    );
 };
 
-const App = () => {
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [optionClicked, setOptionClicked] = useState(0);
-  const [totalQuestions, setTotalQuestions] = useState(5);
-  const [imageData, setImageData] = useState(null);
-  const [showDomainTestPopup, setShowDomainTestPopup] = useState(false);
-  const [image, setImage] = useState(true);
-  const [userInput, setUserInput] = useState(false);
-  const [isLast, setIsLast] = useState(false);
-  const [imageRaw, setImageRaw] = useState(null);
-  const [imageFlag, setImageFlag] = useState(false);
+
+
+
+
   const questionCardAnimation = useSpring({
     opacity: loading,
     transform: loading ? 'translateY(-20px)' : 'translateY(0)',
@@ -484,6 +538,8 @@ const App = () => {
     // setUserInput(true);
   };
 
+
+
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
         <div id="mysteryBox" className="mysteryBox">
@@ -492,9 +548,9 @@ const App = () => {
 
         <Modal open={open} onClose={handleClose} className='modal-container'>
           {image ? (
-              <PriceSelectionCard />
+              <PriceSelectionCard handlePriceSelect={handlePriceSelect} />
           ) : userInput ? (
-                  <UserInput handleSend={handleSendMessage}/>
+                  <UserInput price={price} />
               )
               : loading ? (
                   <LoadingPage/>
