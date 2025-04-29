@@ -326,7 +326,7 @@ const App = () => {
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
         <div id="merrywrap" className="merrywrap">
-          <img src="/gold_box_before.webp" alt="Gold Box Before" onClick={handleOpen}/>
+          <img src="/gold_box_3.png" alt="Gold Box Before" onClick={handleOpen}/>
         </div>
 
         <Modal open={open} onClose={handleClose} className='modal-container'>
