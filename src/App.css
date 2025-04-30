@@ -1,42 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -44,7 +5,6 @@ body {
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  /*margin-top: 100px;*/
   height: 100vh;
   width: 100vw;
   overflow: hidden; /* Prevent scrollbars */
@@ -56,16 +16,6 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-}
-
-.hidden {
-  text-align: center;
-  background: transparent;
-  border: none;
-}
-
-.hidden:hover {
-  cursor: pointer;
 }
 
 .modal {
@@ -84,33 +34,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-.image-title {
-  border-radius: 4px;
-  text-align: center;
-  align-content: center;
-  font-size: 160%;
-  height: 100%;
-  width: 100%;
-  margin-bottom: 20px;
-  background-color: #01a4a6;
-  color: white;
-}
-
-.drag-drop-area {
-  border: 2px dashed #ccc;
-  width: 95%;
-  padding: 20px;
-  text-align: center;
-  margin: 0px 0px 20px 0;
-  height: 200px;
-  overflow: hidden; /* Prevent image overflow */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.image-text {
-  width: 100%;
-}
 
 .list-modal{
   width: 50vw;
@@ -118,40 +41,6 @@ body {
   background-position: center;
   background-size: 120% 100%;
   color: #01a4a6;
-}
-
-.input-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 20px;
-}
-
-.text-input {
-  width: 80%;
-  height: 100px;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 25px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  resize: none;
-  vertical-align: top; /* Ensures the text starts at the top */
-  line-height: 1.5; /* Adjust line height if needed */
-  text-align: left; /* Aligns text to the left (default) */
-}
-
-.text-input:focus {
-  border-color: #111111; /* Change border color on focus */
-  box-shadow: 0 0 10px #111111; /* Add a subtle shadow effect */
-}
-.text-input::placeholder {
-  font-size: 30px;
-  color: #78787888;
-  text-align: center;
 }
 
 .button {
@@ -173,24 +62,6 @@ body {
   background-color: #111111; /* Darker background on hover */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
   transform: translateY(-2px); /* Slight lift effect */
-}
-
-.text-button {
-  width: 200px;
-  background-color: #01a4a6;
-  color: white;
-  transition: 0.5s;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.text-button:hover {
-  background-color: #01b9bc;
-}
-
-.text-title {
-  display: flex;
-  justify-content: center;
 }
 
 .list-item {
