@@ -491,7 +491,7 @@ const handleCancel = () => {
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
         <div id="mysteryBox" className="mysteryBox">
-          <img src="/gold_box_5.png" alt="Mystery Box" onClick={handleOpen}/>
+          <img src="/gold_box_8.png" alt="Mystery Box" onClick={handleOpen}/>
         </div>
 
         <Modal open={open} onClose={handleClose} className='modal-container'>
