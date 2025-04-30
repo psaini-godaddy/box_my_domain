@@ -316,10 +316,9 @@ const QuestionCard = ({ question, options, handleOptionClick, progress}) => (
 const handleConfirm = () => {
     console.log('Payment confirmed!');
     console.log(`Price selected: $${price}`);
-    launchFireworks();
     setOpenConfirm(false);
     handleSendMessage(price, keyword);
-
+    setImage(false); // Hide the PriceSelectionCard
 };
 const handleCancel = () => {
     setOpenConfirm(false);
@@ -334,10 +333,11 @@ const handleCancel = () => {
   const [userOption, setUserOption] = useState(null);
 
   const handleOpen = async () => {
-    document.querySelector('#mysteryBox img').src = '/gold_box_after.png';
+    // document.querySelector('#mysteryBox img').src = '/gold_box_after.png';
     setTimeout(() => {
       setOpen(true);
     }, 900);
+
 
   };
 
@@ -495,7 +495,12 @@ const handleCancel = () => {
       <div style={{textAlign: 'center', marginTop: '50px'}}>
           <div id="mysteryBox" className="mysteryBox">
               <img src="/white_box.png" alt="White Box" className="background-box"/>
-              <img src="/gold_box_8.png" alt="Mystery Box" className="foreground-box" onClick={handleOpen}/>
+              <img
+                  src={open ? "/gold_box_after.png" : "/gold_box_8.png"}
+                  alt="Mystery Box"
+                  className={`foreground-box ${open ? "no-wobble" : ""}`}
+                  onClick={handleOpen}
+              />
           </div>
 
           <Modal open={open} onClose={handleClose} className='modal-container'>
@@ -504,7 +509,11 @@ const handleCancel = () => {
               ) : loading ? (
                   <LoadingPage/>
               ) : data ? (
-                  <DomainListCard domains={data}/>
+                  <>
+                      <DomainListCard domains={data}/>
+                      {launchFireworks()}
+                  </>
+
               ) : (
                   <Typography>Loading...</Typography>
               )}
