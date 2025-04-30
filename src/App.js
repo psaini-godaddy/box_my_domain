@@ -567,7 +567,7 @@ const UserInput = ({ handleQuestion, price }) => {
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
         <div id="mysteryBox" className="mysteryBox">
-          <img src="/gold_box_3.png" alt="Gold Box Before" onClick={handleOpen}/>
+          <img src="/gold_box_5.png" alt="Mystery Box" onClick={handleOpen}/>
         </div>
 
         <Modal open={open} onClose={handleClose} className='modal-container'>
