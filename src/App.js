@@ -71,6 +71,7 @@ const App = () => {
     const [imageFlag, setImageFlag] = useState(false);
     const [price, setPrice] = useState(null);
     const [openConfirm, setOpenConfirm] = useState(false);
+    const [keyword, setKeyword] = useState('');
 
 const canvas = document.querySelector('canvas');
 if (canvas) {
@@ -119,84 +120,103 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
         </Box>
 
         {/* Bottom Half - White */}
-        <Box
-            style={{
-              backgroundColor: 'white',
-              height: '30%',
-              padding: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottomLeftRadius: '15px',
-              borderBottomRightRadius: '15px',
-              gap: '20px',
-              fontSize: '100px'
-            }}
-        >
-          {/* Price Buttons */}
-          <Box style={{ display: 'flex', gap: '40px' }}>
-            <button
-                className="button price-button"
-                onClick={() => handlePriceSelect(15)}
-                style={priceButtonStyle}
-                style = {{fontSize: '30px',
-                  marginTop: '80px',
-                  borderRadius: '12px'}}
-            >
-              $15
-            </button>
+          <Box
+              style={{
+                  backgroundColor: 'white',
+                  height: '30%',
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  borderBottomLeftRadius: '15px',
+                  borderBottomRightRadius: '15px',
+                  gap: '20px',
+                  fontSize: '100px'
+              }}
+          >
+              <input
+                  type="text"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  placeholder="e.g. pizza, golf, coffee ☕️"
+                  style={{
+                      width: '60%',
+                      padding: '12px 20px',
+                      borderRadius: '12px',
+                      border: '1px solid #ccc',
+                      fontSize: '16px',
+                      backgroundColor: 'white',
+                      color: '#333',
+                      textAlign: 'center'
+                  }}
+              />
+              <Box style={{display: 'flex', gap: '40px'}}>
+                  <button
+                      className="button price-button"
+                      onClick={() => handlePriceSelect(15)}
+                      style={priceButtonStyle}
+                      style={{
+                          fontSize: '30px',
+                          marginTop: '10px',
+                          borderRadius: '12px'
+                      }}
+                  >
+                      $15
+                  </button>
 
-            <button
-                className="button price-button"
-                onClick={() => handlePriceSelect(25)}
-                style={priceButtonStyle}
-                style = {{fontSize: '30px',
-                  marginTop: '80px',
-                  borderRadius: '12px'}}
-            >
-              $25
-            </button>
+                  <button
+                      className="button price-button"
+                      onClick={() => handlePriceSelect(25)}
+                      style={priceButtonStyle}
+                      style={{
+                          fontSize: '30px',
+                          marginTop: '10px',
+                          borderRadius: '12px'
+                      }}
+                  >
+                      $25
+                  </button>
 
-            <button
-                className="button price-button"
-                onClick={() => handlePriceSelect(35)}
-                style={priceButtonStyle}
-                style = {{fontSize: '30px',
-                  marginTop: '80px',
-                  borderRadius: '12px'}}
-            >
-              $35
-            </button>
+                  <button
+                      className="button price-button"
+                      onClick={() => handlePriceSelect(35)}
+                      style={priceButtonStyle}
+                      style={{
+                          fontSize: '30px',
+                          marginTop: '10px',
+                          borderRadius: '12px'
+                      }}
+                  >
+                      $35
+                  </button>
+              </Box>
           </Box>
-        </Box>
       </Box>
   );
 };
 
 // Styling for the Price Buttons
-const priceButtonStyle = {
-  background: 'black',
-  color: 'white',
-  border: 'none',
-  borderRadius: '10px',
-  padding: '10px 20px',
-  fontSize: '18px',
-  cursor: 'pointer',
-  transition: 'transform 0.2s ease, background 0.3s ease',
-};
+    const priceButtonStyle = {
+        background: 'black',
+        color: 'white',
+        border: 'none',
+        borderRadius: '10px',
+        padding: '10px 20px',
+        fontSize: '18px',
+        cursor: 'pointer',
+        transition: 'transform 0.2s ease, background 0.3s ease',
+    };
 
-const surpriseButtonStyle = {
-  backgroundColor: '#20c997',
-  color: 'white',
-  border: 'none',
-  borderRadius: '10px',
-  fontSize: '18px',
-  padding: '12px 30px',
-  cursor: 'pointer',
-  marginTop: '80px',
-  transition: 'transform 0.3s ease, background-color 0.3s ease',
-};
+    const surpriseButtonStyle = {
+        backgroundColor: '#20c997',
+        color: 'white',
+        border: 'none',
+        borderRadius: '10px',
+        fontSize: '18px',
+        // padding: '12px 30px',
+        cursor: 'pointer',
+        transition: 'transform 0.3s ease, background-color 0.3s ease',
+    };
 
 // Add this CSS into your global styles or inside your file (CSS-in-JS)
 const styleSheet = document.createElement("style");
