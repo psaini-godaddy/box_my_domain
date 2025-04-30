@@ -1,27 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress } from '@mui/material';
+import { Modal, Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import {Button} from '@mui/joy';
 import axios from 'axios';
 import './App.css';
 import DomainListCard from './DomainListCard';
 import confetti from 'canvas-confetti';
-
-let confettiInstance;
-
-export function initConfettiCanvas() {
-  const canvas = document.createElement('canvas');
-  canvas.id = 'confetti-canvas';
-  canvas.style.position = 'fixed';
-  canvas.style.top = 0;
-  canvas.style.left = 0;
-  canvas.style.width = '100vw';
-  canvas.style.height = '100vh';
-  canvas.style.zIndex = '99999'; // super high
-  canvas.style.pointerEvents = 'none';
-  document.body.appendChild(canvas);
-
-  confettiInstance = confetti.create(canvas, { resize: true, useWorker: true });
-}
 
 function launchFireworks() {
 
@@ -57,6 +40,7 @@ const App = () => {
     const [price, setPrice] = useState(null);
     const [openConfirm, setOpenConfirm] = useState(false);
     const [keyword, setKeyword] = useState('');
+    const [changeImage, setChangeImage] = useState(false);
 
 const canvas = document.querySelector('canvas');
 if (canvas) {
@@ -148,11 +132,6 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                       className="button price-button"
                       onClick={() => handlePriceSelect(15)}
                       style={priceButtonStyle}
-                      style={{
-                          fontSize: '30px',
-                          marginTop: '10px',
-                          borderRadius: '12px'
-                      }}
                   >
                       $15
                   </button>
@@ -161,11 +140,6 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                       className="button price-button"
                       onClick={() => handlePriceSelect(25)}
                       style={priceButtonStyle}
-                      style={{
-                          fontSize: '30px',
-                          marginTop: '10px',
-                          borderRadius: '12px'
-                      }}
                   >
                       $25
                   </button>
@@ -174,11 +148,6 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                       className="button price-button"
                       onClick={() => handlePriceSelect(35)}
                       style={priceButtonStyle}
-                      style={{
-                          fontSize: '30px',
-                          marginTop: '10px',
-                          borderRadius: '12px'
-                      }}
                   >
                       $35
                   </button>
@@ -208,11 +177,12 @@ const ConfirmWindow = () => (
         background: 'black',
         color: 'white',
         border: 'none',
-        borderRadius: '10px',
         padding: '10px 20px',
-        fontSize: '18px',
         cursor: 'pointer',
         transition: 'transform 0.2s ease, background 0.3s ease',
+        fontSize: '30px',
+        marginTop: '10px',
+        borderRadius: '12px'
     };
 
 // Add this CSS into your global styles or inside your file (CSS-in-JS)
@@ -248,6 +218,7 @@ document.head.appendChild(styleSheet);
     };
 
   const handleOpen = async () => {
+      setChangeImage(true)
     setTimeout(() => {
       setOpen(true);
     }, 900);
@@ -255,6 +226,7 @@ document.head.appendChild(styleSheet);
 
   const handleClose = () => {
     setOpen(false);
+      setChangeImage(false)
     window.location.reload();
     const response = axios.post('http://localhost:5000/reset', {
     }, { withCredentials: true });
@@ -283,9 +255,9 @@ document.head.appendChild(styleSheet);
           <div id="mysteryBox" className="mysteryBox">
               <img src="/white_box.png" alt="White Box" className="background-box"/>
               <img
-                  src={open ? "/gold_box_after.png" : "/gold_box_8.png"}
+                  src={changeImage ? "/gold_box_after.png" : "/gold_box_8.png"}
                   alt="Mystery Box"
-                  className={`foreground-box ${open ? "no-wobble" : ""}`}
+                  className={`foreground-box ${changeImage ? "no-wobble" : ""}`}
                   onClick={handleOpen}
               />
           </div>
