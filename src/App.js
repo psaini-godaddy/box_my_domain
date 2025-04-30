@@ -81,7 +81,6 @@ if (canvas) {
 
 const handlePriceSelect = (selectedPrice) => {
     setPrice(selectedPrice); // Set the selected price
-    setImage(false); // Hide the PriceSelectionCard
     const keywordInput = document.getElementById('textbox');
     if (keywordInput) {
       const inputValue = keywordInput.value;
@@ -90,7 +89,6 @@ const handlePriceSelect = (selectedPrice) => {
       console.log('Keyword:', inputValue);
     }
     setOpenConfirm(true);
-    console.log(openConfirm)
 };
 
 const PriceSelectionCard = ({ handleQuestion }) =>{
@@ -257,8 +255,6 @@ styleSheet.innerText = `
 `;
 document.head.appendChild(styleSheet);
 
-
-
 const QuestionCard = ({ question, options, handleOptionClick, progress}) => (
     <Box className='modal question-card'>
       <Box className='progress-bar-container'>
@@ -320,10 +316,11 @@ const handleConfirm = () => {
     launchFireworks();
     setOpenConfirm(false);
     handleSendMessage(price);
-    // Add payment logic here
+    setImage(false); // Hide the PriceSelectionCard
 };
 const handleCancel = () => {
     setOpenConfirm(false);
+    setImage(false); // Hide the PriceSelectionCard
 };
 
   const questionCardAnimation = useSpring({
