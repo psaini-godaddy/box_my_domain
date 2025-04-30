@@ -145,7 +145,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                   type="text"
                  // value={keyword}
                  // onChange={(e) => setKeyword(e.target.value)}
-                  placeholder="e.g. pizza, golf, coffee ☕️"
+                  placeholder="What’s your vibe?  e.g. pizza, coffee ☕️"
                   style={{
                       width: '60%',
                       padding: '12px 20px',
