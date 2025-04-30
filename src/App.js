@@ -127,30 +127,19 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                       textAlign: 'center'
                   }}
               />
-              <Box style={{display: 'flex', gap: '40px'}}>
-                  <button
-                      className="button price-button"
-                      onClick={() => handlePriceSelect(15)}
-                      style={priceButtonStyle}
-                  >
-                      $15
-                  </button>
-
-                  <button
-                      className="button price-button"
-                      onClick={() => handlePriceSelect(25)}
-                      style={priceButtonStyle}
-                  >
-                      $25
-                  </button>
-
-                  <button
-                      className="button price-button"
-                      onClick={() => handlePriceSelect(35)}
-                      style={priceButtonStyle}
-                  >
-                      $35
-                  </button>
+              {/* Price Buttons */}
+              <Box style={{ display: 'flex', gap: '40px' }}>
+                  {[15,25,35].map(price => (
+                      <button
+                          className="button price-button"
+                          onClick={() => handlePriceSelect(price)}
+                          style={priceButtonStyle}
+                          style = {{fontSize: '30px',
+                              borderRadius: '12px'}}
+                      >
+                          ${price}
+                      </button>
+                  ))}
               </Box>
           </Box>
 
