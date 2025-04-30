@@ -6,25 +6,14 @@ const DomainListCard = ({ domains = [] }) => {
       <Box className="modal list-modal">
         <Box className="list-card">
           <Box style={{ display: 'flex', justifyContent: 'center', margin: '40px 0px' }}>
-            <Typography variant="h4">
+            <Typography variant="h3">
               🎈 Big reveal! These domains are all about you!
             </Typography>
           </Box>
           {domains.map((domain, index) => (
-              <Box
-                  key={index}
-                  className="list-item"
-                  style={{
-                    padding: '15px',
-                    border: '1px solid #ccc',
-                    borderRadius: '8px',
-                    marginBottom: '20px',
-                  }}
-              >
-                <Typography variant="h6" style={{ fontSize: '20px' }}>
+              <Typography variant="h6" style={{ fontSize: '30px' }}>
                   {domain}
-                </Typography>
-              </Box>
+              </Typography>
           ))}
         </Box>
       </Box>
