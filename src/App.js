@@ -493,21 +493,22 @@ const handleCancel = () => {
 
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
-        <div id="mysteryBox" className="mysteryBox">
-          <img src="/gold_box_8.png" alt="Mystery Box" onClick={handleOpen}/>
-        </div>
+          <div id="mysteryBox" className="mysteryBox">
+              <img src="/white_box.png" alt="White Box" className="background-box"/>
+              <img src="/gold_box_8.png" alt="Mystery Box" className="foreground-box" onClick={handleOpen}/>
+          </div>
 
-        <Modal open={open} onClose={handleClose} className='modal-container'>
-          {image ? (
-              <PriceSelectionCard handlePriceSelect={handlePriceSelect}/>
-          ) : loading ? (
+          <Modal open={open} onClose={handleClose} className='modal-container'>
+              {image ? (
+                  <PriceSelectionCard handlePriceSelect={handlePriceSelect}/>
+              ) : loading ? (
                   <LoadingPage/>
               ) : data ? (
-                    <DomainListCard domains={data}/>
+                  <DomainListCard domains={data}/>
               ) : (
                   <Typography>Loading...</Typography>
               )}
-        </Modal>
+          </Modal>
       </div>
   );
 };
