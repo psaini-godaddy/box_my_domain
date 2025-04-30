@@ -112,15 +112,6 @@ body {
   width: 100%;
 }
 
-.question-card{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url('./bg-card.png');
-  background-position: center;
-  background-size: 120% 100%;
-}
-
 .progress-bar-container {
   width: 100%;
   height: 20px;
@@ -191,12 +182,7 @@ body {
   background-image: url('./bg-card.png');
   background-position: center;
   background-size: 120% 100%;
-}
-
-.list-card {
-  text-align: center;
   color: #01a4a6;
-  overflow: scroll;
 }
 
 .skip-button {
