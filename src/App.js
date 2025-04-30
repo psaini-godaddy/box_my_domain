@@ -134,8 +134,6 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                           className="button price-button"
                           onClick={() => handlePriceSelect(price)}
                           style={priceButtonStyle}
-                          style = {{fontSize: '30px',
-                              borderRadius: '12px'}}
                       >
                           ${price}
                       </button>
@@ -216,9 +214,6 @@ document.head.appendChild(styleSheet);
   const handleClose = () => {
     setOpen(false);
       setChangeImage(false)
-    window.location.reload();
-    const response = axios.post('http://localhost:5000/reset', {
-    }, { withCredentials: true });
   };
   const handleSendMessage = async (price, keyword) => {
     try {
