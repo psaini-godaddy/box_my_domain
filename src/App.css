@@ -187,21 +187,16 @@ body {
   color: #01a4a6;
 }
 .list-modal{
-  width: 80vw;
+  width: 50vw;
   background-image: url('./bg-card.png');
   background-position: center;
   background-size: 120% 100%;
 }
 
 .list-card {
-  border-radius: 4px;
   text-align: center;
   color: #01a4a6;
-  font-size: 18px;
   overflow: scroll;
-  scrollbar-width: none;
-  max-height: 800px;
-  width: 80%;
 }
 
 .skip-button {
