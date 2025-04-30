@@ -111,10 +111,10 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
               padding: '20px',
             }}
         >
-          <h3 style={{ fontSize: '38px', fontWeight: '600', margin: '0', justifyContent: 'center' }}> Your Mystery Domain Box Awaits!
+          <h3 style={{ fontSize: '38px', fontWeight: '600', marginTop: '50px', justifyContent: 'center' }}> Pick a price to unlock your prize!
           </h3>
-          <p style={{ fontSize: '22px', marginTop: '10px' }}>
-            Pick a price to unlock your surprise 🌟
+          <p style={{ fontSize: '22px', marginTop: '0px' }}>
+              Your Mystery Domain Box Awaits 🌟
           </p>
         </Box>
 
