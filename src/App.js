@@ -325,7 +325,7 @@ const handleConfirm = () => {
 };
 const handleCancel = () => {
     setOpenConfirm(false);
-    setImage(true); // Hide the PriceSelectionCard
+    setImage(true);
 };
 
   const questionCardAnimation = useSpring({
