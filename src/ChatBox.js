@@ -4,9 +4,9 @@ import { Box, TextField, Button, Typography } from '@mui/material';
 const ChatBox = ( { domains = [] }) => {
     const [messages, setMessages] = useState([
         {
-            text: `🎉 Nice pick — ${domains.join(', ')} is yours! Curious how valuable it is? ` +
-                "Want to turn it into traffic or profit? " +
-                "Say the word — I'm here to help!",
+            text: `🎉 You just unlocked ${domains.join(', ')}! Wondering how valuable it is? ` +
+                "Looking to drive traffic or turn it into profit? " +
+                "Just say the word — I'm here to help!",
             sender: 'bot',
         }
     ]);
@@ -89,6 +89,12 @@ const ChatBox = ( { domains = [] }) => {
                     variant="outlined"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault(); // Prevents default behavior like adding a new line
+                            handleSendMessage();
+                        }
+                    }}
                     placeholder="Type your message..."
                 />
                 <Button
