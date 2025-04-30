@@ -81,8 +81,16 @@ if (canvas) {
 
 const handlePriceSelect = (selectedPrice) => {
     setPrice(selectedPrice); // Set the selected price
-    setUserInput(true); // Show the UserInput component
     setImage(false); // Hide the PriceSelectionCard
+    const keywordInput = document.getElementById('textbox');
+    if (keywordInput) {
+      const inputValue = keywordInput.value;
+      setKeyword(inputValue);
+      console.log('Selected price:', selectedPrice);
+      console.log('Keyword:', inputValue);
+    }
+    setOpenConfirm(true);
+    console.log(openConfirm)
 };
 
 const PriceSelectionCard = ({ handleQuestion }) =>{
@@ -135,9 +143,10 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
               }}
           >
               <input
+                  id="textbox"
                   type="text"
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
+                 // value={keyword}
+                 // onChange={(e) => setKeyword(e.target.value)}
                   placeholder="e.g. pizza, golf, coffee ☕️"
                   style={{
                       width: '60%',
@@ -191,6 +200,16 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                   </button>
               </Box>
           </Box>
+          <Dialog open={openConfirm} onClose={handleCancel}>
+              <DialogTitle>Confirm Payment</DialogTitle>
+              <DialogContent>
+                  <Typography>Do you want to pay ${price}?</Typography>
+              </DialogContent>
+              <DialogActions>
+                  <Button onClick={handleCancel} color="secondary">Cancel</Button>
+                  <Button onClick={handleConfirm} color="primary">Confirm</Button>
+              </DialogActions>
+          </Dialog>
       </Box>
   );
 };
@@ -283,21 +302,18 @@ const QuestionCard = ({ question, options, handleOptionClick, progress}) => (
     </Box>
 );
 
-const DomainTestCard = ({handleQuestion, handleClose}) => (
-    <Box className='modal'>
-      <Box className='question-title'>
-        <p>Do you want to take a quick domainality test?</p>
-      </Box>
-      <Box className='footer'>
-        <button className='button' onClick={handleQuestion}>Start Test</button>
-        <button className='button' onClick={handleClose}>Next Time</button>
-      </Box>
-    </Box>
-);
+// const DomainTestCard = ({handleQuestion, handleClose}) => (
+//     <Box className='modal'>
+//       <Box className='question-title'>
+//         <p>Do you want to take a quick domainality test?</p>
+//       </Box>
+//       <Box className='footer'>
+//         <button className='button' onClick={handleQuestion}>Start Test</button>
+//         <button className='button' onClick={handleClose}>Next Time</button>
+//       </Box>
+//     </Box>
+// );
 
-const confirmPayment = (price) => {
-    setOpenConfirm(true);
-}
 const handleConfirm = () => {
     console.log('Payment confirmed!');
     console.log(`Price selected: $${price}`);
@@ -308,111 +324,6 @@ const handleConfirm = () => {
 };
 const handleCancel = () => {
     setOpenConfirm(false);
-};
-const UserInput = ({ handleQuestion, price }) => {
-    return (
-        <Box
-            style={{
-                width: '700px',
-                height: '700px',
-                borderRadius: '15px',
-                overflow: 'hidden',
-                margin: 'auto',
-                marginTop: '100px',
-                animation: 'fadeIn 1s ease' // smooth entry animation
-            }}
-        >
-            {/* Top Half - Teal Gradient Background */}
-            <Box
-                style={{
-                    background: 'linear-gradient(135deg, #008080, #20c997)',
-                    height: '30%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    color: 'white',
-                    padding: '20px',
-                }}
-            >
-                <h3 style={{fontSize: '38px', fontWeight: '600', margin: '0', justifyContent: 'center'}}> Your Mystery
-                    Domain Box Awaits!
-                </h3>
-                <p style={{fontSize: '22px', marginTop: '10px'}}>
-                    Enter some keywords for your ${price} box
-                </p>
-                <input
-                    type="text"
-                    placeholder="Type your keywords here..."
-                    style={{
-                        width: '80%',
-                        height: '40px',
-                        fontSize: '16px',
-                        padding: '5px',
-                        marginTop: '10px',
-                        outline: 'none',
-                    }}
-                />
-                <button
-                    className="button"
-                    style={{
-                        marginTop: '20px',
-                        padding: '10px 20px',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        backgroundColor: '#111111',
-                        border: 'none',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                        confirmPayment(price);
-                    }}
-                >
-                    Go
-                </button>
-                <Dialog open={openConfirm} onClose={handleCancel}>
-                    <DialogTitle>Confirm Payment</DialogTitle>
-                    <DialogContent>
-                        <Typography>Do you want to pay ${price}?</Typography>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCancel} color="secondary">Cancel</Button>
-                        <Button onClick={handleConfirm} color="primary">Confirm</Button>
-                    </DialogActions>
-                </Dialog>
-            </Box>
-            {/* Bottom Half - White */}
-            <Box
-                style={{
-                    backgroundColor: 'white',
-                    height: '30%',
-                    padding: '20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    borderBottomLeftRadius: '15px',
-                    borderBottomRightRadius: '15px',
-                    gap: '20px',
-                    fontSize: '100px'
-                }}
-            >
-                {/* Surprise Me Button */}
-                <button
-                    className="button image-button"
-                    onClick={() => {
-                        confirmPayment(price);
-                    }}
-                    style={{ float: "right" }}
-                    style={surpriseButtonStyle}
-                >
-                    🎁 Surprise Me
-                </button>
-            </Box>
-        </Box>
-    );
 };
 
   const questionCardAnimation = useSpring({
@@ -592,11 +503,8 @@ const UserInput = ({ handleQuestion, price }) => {
 
         <Modal open={open} onClose={handleClose} className='modal-container'>
           {image ? (
-              <PriceSelectionCard handlePriceSelect={handlePriceSelect} />
-          ) : userInput ? (
-                  <UserInput price={price} />
-              )
-              : loading ? (
+              <PriceSelectionCard handlePriceSelect={handlePriceSelect}/>
+          ) : loading ? (
                   <LoadingPage/>
               ) : data ? (
                   data.recommended_domains ? (
@@ -611,8 +519,6 @@ const UserInput = ({ handleQuestion, price }) => {
                         />
                       </animated.div>
                   )
-              ) : showDomainTestPopup ? (
-                  <DomainTestCard handleClose={handleClose} handleQuestion={handleQuestion}/>
               ) : (
                   <Typography>Loading...</Typography>
               )}
