@@ -88,7 +88,7 @@ const handlePriceSelect = (selectedPrice) => {
       console.log('Selected price:', selectedPrice);
       console.log('Keyword:', inputValue);
     }
-    setOpenConfirm(true);
+    setImage(false); setOpenConfirm(true);
 };
 
 const PriceSelectionCard = ({ handleQuestion }) =>{
@@ -201,6 +201,11 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
           </Box>
 
       </Box>
+    </div>
+  );
+};
+
+const ConfirmWindow = () => (
     <Dialog className="dialog" open={openConfirm} onClose={handleCancel}>
         <DialogTitle>Confirm Payment</DialogTitle>
         <DialogContent>
@@ -211,9 +216,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
             <Button onClick={handleConfirm} color="primary">Confirm</Button>
         </DialogActions>
     </Dialog>
-    </div>
-  );
-};
+);
 
 // Styling for the Price Buttons
     const priceButtonStyle = {
@@ -506,8 +509,8 @@ const handleCancel = () => {
           <Modal open={open} onClose={handleClose} className='modal-container'>
               {image ? (
                   <PriceSelectionCard handlePriceSelect={handlePriceSelect}/>
-              ) : loading ? (
-                  <LoadingPage/>
+              ) : openConfirm ? (
+                  <ConfirmWindow/>
               ) : data ? (
                   <>
                       <DomainListCard domains={data}/>
