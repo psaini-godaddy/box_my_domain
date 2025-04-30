@@ -126,3 +126,19 @@ body {
   text-align: center;
   font-size: 30px;
 }
+
+.fade-wrapper {
+  transition: opacity 2s ease;
+  opacity: 1;
+}
+
+.fade-wrapper.fade-out {
+  opacity: 0;
+}
+
+.chat-box {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  margin-top: 20px;
+}
