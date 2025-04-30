@@ -7,7 +7,7 @@ import axios from 'axios';
 import LoadingPage from './LoadingPage';
 import './App.css';
 import TipsAndUpdatesTwoToneIcon from '@mui/icons-material/TipsAndUpdatesTwoTone';
-import ListCard from './ListCard';
+import DomainListCard from './DomainListCard';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import confetti from 'canvas-confetti';
@@ -315,8 +315,8 @@ const handleConfirm = () => {
     console.log(`Price selected: $${price}`);
     launchFireworks();
     setOpenConfirm(false);
-    handleSendMessage(price);
-    setImage(false); // Hide the PriceSelectionCard
+    handleSendMessage(price, keyword);
+
 };
 const handleCancel = () => {
     setOpenConfirm(false);
@@ -344,30 +344,27 @@ const handleCancel = () => {
     const response = axios.post('http://localhost:5000/reset', {
     }, { withCredentials: true });
   };
-  const handleSendMessage = async (text) => {
-    setUserInput(false);
+  const handleSendMessage = async (price, keyword) => {
     setLoading(true);
     try {
-      // const response = await axios.post('http://localhost:5000/chat', {
-      //   message: userOption,
-      //   textInput: text
-      // }, { withCredentials: true });
+        const response = await axios.get('http://localhost:8001/domain_draw', {
+          params: {
+            price,
+            search_query: keyword
+          }
+        }, { withCredentials: true });
 
-        const response = { data: { content: { chat: "Dummy question?", options: ["Option 1", "Option 2"], recommended_domains: null }, isLast: false } };
-
-      const data = response.data;
-      if (data.content.options && typeof data.content.options === 'object') {
-        console.log('Options:', data.content.options);
-        data.content.options = Object.entries(data.content.options).map(([key, value]) => `${value}`);
-      }
-      setData(data.content);
-      console.log('Response:', data);
+       // const response = { data: { content: { chat: "Dummy question?", options: ["Option 1", "Option 2"], recommended_domains: null }, isLast: false } };
+        //print response
+        console.log('Raw Response:', response);
+        const data = response.data.result.map(item => item.domain);
+        setData(data);
+        console.log('Response:', data);
     } catch (error) {
       console.error('Error sending message:', error);
     }
     setLoading(false);
-    setIsLast(false);
-    setUserInput(false);
+    setImage(false);
   };
 
   const fetchQuestion = async (selectedOption) => {
@@ -410,7 +407,6 @@ const handleCancel = () => {
         data.content.options = Object.entries(data.content.options).map(([key, value]) => `${value}`);
       }
       setData(data.content); // Update the state with the processed data
-      setIsLast(data.isLast);
       console.log('Processed Response:', data);
     } catch (error) {
       console.error('Error fetching question:', error);
@@ -504,18 +500,7 @@ const handleCancel = () => {
           ) : loading ? (
                   <LoadingPage/>
               ) : data ? (
-                  data.recommended_domains ? (
-                      <ListCard guesses={data.recommended_domains}/>
-                  ) : (
-                      <animated.div style={questionCardAnimation}>
-                        <QuestionCard
-                            question={data.chat}
-                            options={data.options}
-                            handleOptionClick={handleOptionClick}
-                            progress={progress}
-                        />
-                      </animated.div>
-                  )
+                    <DomainListCard domains={data}/>
               ) : (
                   <Typography>Loading...</Typography>
               )}
