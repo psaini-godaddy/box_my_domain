@@ -340,3 +340,18 @@ body {
   width: 27vw;
   height: 57vh;
 }
+
+.dialog{
+  margin-top: 10vh;
+  align-items: center;
+}
+.dialog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.MuiDialogTitle-root {
+  text-align: center;
+  font-size: 30px;
+}
