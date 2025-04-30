@@ -94,6 +94,7 @@ const handlePriceSelect = (selectedPrice) => {
 const PriceSelectionCard = ({ handleQuestion }) =>{
   // ✅ Dummy handler for now
   return (
+      <div>
       <Box
           style={{
             width: '700px',
@@ -198,17 +199,19 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                   </button>
               </Box>
           </Box>
-          <Dialog open={openConfirm} onClose={handleCancel}>
-              <DialogTitle>Confirm Payment</DialogTitle>
-              <DialogContent>
-                  <Typography>Do you want to pay ${price}?</Typography>
-              </DialogContent>
-              <DialogActions>
-                  <Button onClick={handleCancel} color="secondary">Cancel</Button>
-                  <Button onClick={handleConfirm} color="primary">Confirm</Button>
-              </DialogActions>
-          </Dialog>
+
       </Box>
+    <Dialog className="dialog" open={openConfirm} onClose={handleCancel}>
+        <DialogTitle>Confirm Payment</DialogTitle>
+        <DialogContent>
+            <Typography>Unlock your surprise for ${price} + domain registration (1 year).</Typography>
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={handleCancel} color="secondary">Cancel</Button>
+            <Button onClick={handleConfirm} color="primary">Confirm</Button>
+        </DialogActions>
+    </Dialog>
+    </div>
   );
 };
 
