@@ -5,6 +5,7 @@ import axios from 'axios';
 import './App.css';
 import DomainListCard from './DomainListCard';
 import confetti from 'canvas-confetti';
+import ChatBox  from "./ChatBox";
 
 function launchFireworks() {
 
@@ -41,6 +42,23 @@ const App = () => {
     const [openConfirm, setOpenConfirm] = useState(false);
     const [keyword, setKeyword] = useState('');
     const [changeImage, setChangeImage] = useState(false);
+    const [showDomainCard, setShowDomainCard] = useState(true);
+    const [showChatBox, setShowChatBox] = useState(false);
+    const [fadeOut, setFadeOut] = useState(false);
+
+    // useEffect(() => {
+    //     if (showChatBox) {
+    //         // Reset default values
+    //         setOpen(false);
+    //         setImage(true);
+    //         setPrice(null);
+    //         setOpenConfirm(false);
+    //         setKeyword('');
+    //         setChangeImage(false);
+    //         setShowDomainCard(false);
+    //         setFadeOut(false);
+    //     }
+    // }, [showChatBox]);
 
 const canvas = document.querySelector('canvas');
 if (canvas) {
@@ -150,7 +168,7 @@ const ConfirmWindow = () => (
     <Dialog className="dialog" open={openConfirm} onClose={handleCancel}>
         <DialogTitle>Confirm Payment</DialogTitle>
         <DialogContent>
-            <Typography>Unlock your surprise for ${price} + domain registration (1 year).</Typography>
+            <Typography>Unlock your surprise for ${price} + standard domain registration fee (1 year).</Typography>
         </DialogContent>
         <DialogActions>
             <Button onClick={handleCancel} color="secondary">Cancel</Button>
@@ -215,24 +233,27 @@ document.head.appendChild(styleSheet);
     setOpen(false);
       setChangeImage(false)
   };
-  const handleSendMessage = async (price, keyword) => {
-    try {
-        const response = await axios.get('http://localhost:8001/domain_draw', {
-          params: {
-            price,
-            search_query: keyword
-          }
-        }, { withCredentials: true });
+    const handleSendMessage = async (price, keyword) => {
+        try {
+            const response = await axios.get('http://localhost:8001/domain_draw', {
+                params: { price, search_query: keyword }
+            }, { withCredentials: true });
 
-        console.log('Raw Response:', response);
-        const data = response.data.result.map(item => item.domain);
-        setData(data);
-        console.log('Response:', data);
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
-    setImage(false);
-  };
+            const data = response.data.result.map(item => item.domain);
+            setData(data);
+
+            // Start fade-out after short delay
+            setTimeout(() => {
+                setFadeOut(true);
+                setTimeout(() => {
+                    setShowDomainCard(false);
+                    setShowChatBox(true);
+                }, 3000); // Wait for fade animation to complete
+            }, 3000); // Show domain card for 3 seconds before fading out
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    };
 
   return (
       <div style={{textAlign: 'center', marginTop: '50px'}}>
@@ -253,10 +274,16 @@ document.head.appendChild(styleSheet);
                   <ConfirmWindow/>
               ) : data ? (
                   <>
-                      <DomainListCard domains={data}/>
-                      {launchFireworks()}
+                      {showDomainCard && (
+                          <div className={`fade-wrapper ${fadeOut ? 'fade-out' : ''}`}>
+                              <DomainListCard domains={data}/>
+                              {launchFireworks()}
+                          </div>
+                      )}
+                      {showChatBox && (
+                          <ChatBox domains={data}/>
+                      )}
                   </>
-
               ) : (
                   <Typography>Loading...</Typography>
               )}
