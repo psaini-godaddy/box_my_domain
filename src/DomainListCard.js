@@ -9,10 +9,10 @@ const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result, 
               width: fadeOut ? '700px' : '900px',
               height: fadeOut ? '550px' : '600px',
               transform: fadeOut ? 'translate(-420px, 4px)' : 'translate(0, 0)',
-              transition: 'width 0.4s ease',
+              transition: 'transform 0.5s ease',
           }}
       >
-          <Box style={{display: 'flex'}}>
+          <Box style={{display: 'flex', marginTop : fadeOut ? '80px': '0px'}}>
               <Typography variant="h3" align="center">
                   Congratulations 🎉 <br/>
                   <Typography variant="h4" align="center">
@@ -26,23 +26,24 @@ const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result, 
                   {domain}
               </Typography>
           ))}
-          <Box style={{display: 'column'}}>
-              <Button
-                  variant="contained"
-                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px', marginRight: '100px'}}
-                  onClick={confirmDomain}
-              >
-                  Love It!
-              </Button>
-              <Button
-                  variant="contained"
-                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px'}}
-                  onClick={() => onRetry(price,'',result.session_id)}
-                  disabled={result.remaining_rolls <= 0}
-              >Play Again! ({result.remaining_rolls} Reties Left)
-              </Button>
-          </Box>
-
+          {!fadeOut && (
+              <Box style={{display: 'column'}}>
+                  <Button
+                      variant="contained"
+                      sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px', marginRight: '100px'}}
+                      onClick={confirmDomain}
+                  >
+                      Love It!
+                  </Button>
+                  <Button
+                      variant="contained"
+                      sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px'}}
+                      onClick={() => onRetry(price,'',result.session_id)}
+                      disabled={result.remaining_rolls <= 0}
+                  >Play Again! ({result.remaining_rolls} Reties Left)
+                  </Button>
+            </Box>
+          )}
       </Box>
   );
 };
