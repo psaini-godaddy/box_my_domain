@@ -148,24 +148,29 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
               {/* Price Buttons */}
               <Box className="price-selection-container" style={{ display: 'flex', gap: '40px' }}>
                   {[15,25,35].map(price => (
-                      <img
-                          // src={`/gift_${price}.png`} // Replace with the actual image paths
-                          src={`/giftbox/image-1.png`}
-                          style={{
-                              width: '200px',
-                              height: '200px',
-                              objectFit: 'cover',
-                              marginTop: '-10px',
-                          }}
-                          onClick={() => handlePriceSelect(price)}
-                      />
+                      <div key={price} className="giftbox-container">
+                          <img
+                              src={`/giftbox/image-1.png`}
+                              style={{
+                                  width: '200px',
+                                  height: '200px',
+                                  objectFit: 'cover',
+                                  marginTop: '-10px',
+                              }}
+                              onClick={() => handlePriceSelect(price)}
+                              alt={`Gift box for $${price}`}
+                          />
+                        <span className="hover-text">
+                            {price === 15 ? "This one’s locked for you — no peeking allowed!" : price === 25 ? "Feeling lucky? You’ve got 2 more chances!" : "Go big or go home! This box unlocks 5 full chances."}
+                        </span>
+                      </div>
                   ))}
               </Box>
-              <Box style={{ display: 'flex', gap: '200px' }}>
-                  {[15,25,35].map(price => (
-                   <Typography style={{ fontSize: '25px', fontWeight: 'bold' }}>
-                       ${price}
-                   </Typography>
+              <Box style={{display: 'flex', gap: '200px'}}>
+                  {[15, 25, 35].map(price => (
+                      <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
+                          ${price}
+                      </Typography>
                   ))}
               </Box>
           </Box>
