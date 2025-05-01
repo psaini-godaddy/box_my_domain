@@ -109,7 +109,7 @@ const ChatBox = ({ domains = [], setChartData, showChatBox }) => {
         >
             {/* Header */}
             <Box sx={{ p: 2, backgroundColor: 'teal', color: '#fff', borderTopLeftRadius: showChatBox ? 0 : 15, borderTopRightRadius: 15 }}>
-                <Typography variant="h6" align="center">Domain Mystery Box Assistant</Typography>
+                <Typography variant="h5" align="center" fontStyle="bold">Domain Mystery Box Assistant</Typography>
             </Box>
 
 
