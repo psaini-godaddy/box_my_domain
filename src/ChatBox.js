@@ -25,7 +25,7 @@ const ChatBox = ( { domains = [] }) => {
         setInput('');
 
         // Temporary loading message
-        setMessages(prev => [...prev, { text: 'Thinking... 🤔', sender: 'bot' }]);
+        setMessages(prev => [...prev, { text: 'Got it! Let me look that up for you... 🔍', sender: 'bot' }]);
 
         try {
             const response = await fetch(
