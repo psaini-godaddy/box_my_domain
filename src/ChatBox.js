@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
-import axios from "axios";
 
-const ChatBox = ( { domains = [] }) => {
+const ChatBox = ({ domains = [], setChartData, showChatBox }) => {
     const [messages, setMessages] = useState([
         {
             text: `🎉 You just unlocked ${domains.join(', ')}! Wondering how valuable it is? ` +
@@ -57,6 +56,17 @@ const ChatBox = ( { domains = [] }) => {
                 ⭐ Rating: ${result["Trustworthiness & TLD"].rating}/10
                 `;
 
+            const chartData = [
+                { category: 'Traffic & Engagement', rating: result["Traffic & Engagement"]?.rating || 0 },
+                { category: 'Keyword & SEO Value', rating: result["Keyword & SEO Value"]?.rating || 0 },
+                { category: 'SLD Structure & Length', rating: result["SLD Structure & Length"]?.rating || 0 },
+                { category: 'Brandability & Positioning', rating: result["Brandability & Positioning"]?.rating || 0 },
+                { category: 'Trustworthiness & TLD', rating: result["Trustworthiness & TLD"]?.rating || 0 },
+            ];
+
+            setChartData(chartData);
+            console.log("chartData ", chartData);
+
             setMessages(prev => {
                 const updated = [...prev];
                 updated.pop(); // Remove "Thinking..."
@@ -81,9 +91,9 @@ const ChatBox = ( { domains = [] }) => {
         <Box
             sx={{
                 position: 'fixed',
-                bottom: 193,
-                right: 70,
-                width: 750,
+                bottom: 194,
+                right: 88,
+                width: 820,
                 height: 590,
                 borderRadius: 5,
                 boxShadow: 3,
@@ -91,13 +101,17 @@ const ChatBox = ( { domains = [] }) => {
                 border: '3px solid black',
                 display: 'flex',
                 flexDirection: 'column',
+                borderLeft : showChatBox ? 'none': '3px solid black',
+                borderTopLeftRadius: showChatBox ? '0px': '12px',
+                borderBottomLeftRadius: showChatBox ? '0px' : '12px',
                 // zIndex: 1000
             }}
         >
             {/* Header */}
-            <Box sx={{ p: 2, backgroundColor: 'teal', color: '#fff', borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
-                <Typography variant="h6">Domain Mystery Box Assistant</Typography>
+            <Box sx={{ p: 2, backgroundColor: 'teal', color: '#fff', borderTopLeftRadius: showChatBox ? 0 : 15, borderTopRightRadius: 15 }}>
+                <Typography variant="h6" align="center">Domain Mystery Box Assistant</Typography>
             </Box>
+
 
             {/* Messages */}
             <Box
