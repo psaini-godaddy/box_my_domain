@@ -1,23 +1,28 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+    Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip
+} from 'recharts';
 
-const DomainChart = ({ data }) => {
+const DomainRadarChart = ({ data }) => {
     return (
-        <div style={{ width: '100%', height: 300 }}>
+        <div style={{ width: '100%', height: 400 }}>
             <ResponsiveContainer>
-                <BarChart
-                    data={data}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="category" tick={{ fontSize: 12 }} />
-                    <YAxis domain={[0, 10]} />
+                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+                    <PolarGrid />
+                    <PolarAngleAxis dataKey="category" />
+                    <PolarRadiusAxis angle={30} domain={[0, 10]} />
                     <Tooltip />
-                    <Bar dataKey="rating" fill="#008080" radius={[8, 8, 0, 0]} />
-                </BarChart>
+                    <Radar
+                        name="Domain Score"
+                        dataKey="rating"
+                        stroke="#008080"
+                        fill="#20c997"
+                        fillOpacity={0.6}
+                    />
+                </RadarChart>
             </ResponsiveContainer>
         </div>
     );
 };
 
-export default DomainChart;
+export default DomainRadarChart;
