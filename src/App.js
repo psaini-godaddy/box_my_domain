@@ -46,19 +46,10 @@ const App = () => {
     const [showChatBox, setShowChatBox] = useState(false);
     const [fadeOut, setFadeOut] = useState(false);
 
-    // useEffect(() => {
-    //     if (showChatBox) {
-    //         // Reset default values
-    //         setOpen(false);
-    //         setImage(true);
-    //         setPrice(null);
-    //         setOpenConfirm(false);
-    //         setKeyword('');
-    //         setChangeImage(false);
-    //         setShowDomainCard(false);
-    //         setFadeOut(false);
-    //     }
-    // }, [showChatBox]);
+    const confirmDomain = () => {
+        setFadeOut(true);
+        setShowChatBox(true);
+    }
 
 const canvas = document.querySelector('canvas');
 if (canvas) {
@@ -258,14 +249,7 @@ document.head.appendChild(styleSheet);
             const data = response.data.result.map(item => item.domain);
             setData(data);
 
-            // Start fade-out after short delay
-            setTimeout(() => {
-                setFadeOut(true);
-                setTimeout(() => {
-                    setShowDomainCard(false);
-                    setShowChatBox(true);
-                }, 3000); // Wait for fade animation to complete
-            }, 3000); // Show domain card for 3 seconds before fading out
+
         } catch (error) {
             console.error('Error sending message:', error);
         }
@@ -292,7 +276,7 @@ document.head.appendChild(styleSheet);
                   <>
                       {
                           <div className={`domain-card ${fadeOut ? "move-to-side" : ""}`}>
-                              <DomainListCard domains={data}/>
+                              <DomainListCard domains={data} confirmDomain={confirmDomain}/>
                               {launchFireworks()}
                           </div>
                       }
