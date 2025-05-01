@@ -50,6 +50,7 @@ const App = () => {
     const confirmDomain = () => {
         setFadeOut(true);
         setShowChatBox(true);
+        launchFireworks();
     }
 
 const canvas = document.querySelector('canvas');
