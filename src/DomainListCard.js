@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button, Typography} from '@mui/material';
 
-const DomainListCard = ({ domains = [] }) => {
+const DomainListCard = ({ domains = [] , confirmDomain}) => {
   return (
       <Box className="modal list-modal">
           <Box style={{display: 'flex', marginTop: '-30px'}}>
@@ -18,10 +18,11 @@ const DomainListCard = ({ domains = [] }) => {
                   {domain}
               </Typography>
           ))}
-          <Box style={{display: 'column', marginTop: '100px', gap: '300px'}}>
+          <Box style={{display: 'column', marginTop: '100px'}}>
               <Button
                   variant="contained"
-                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px'}}
+                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px', marginRight: '300px'}}
+                  onClick={confirmDomain}
               >
                   Love It!
               </Button>
