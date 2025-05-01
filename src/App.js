@@ -84,7 +84,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
       <div>
       <Box
           style={{
-            width: '700px',
+            width: '800px',
             height: '700px',
             borderRadius: '15px',
             overflow: 'hidden',
@@ -97,7 +97,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
         <Box
             style={{
               background: 'linear-gradient(135deg, #008080, #20c997)',
-              height: '30%',
+              height: '20%',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
@@ -117,7 +117,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
           <Box
               style={{
                   backgroundColor: 'white',
-                  height: '30%',
+                  height: '40%',
                   padding: '20px',
                   display: 'flex',
                   flexDirection: 'column',
@@ -146,31 +146,43 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                   }}
               />
               {/* Price Buttons */}
-              <Box style={{ display: 'flex', gap: '40px' }}>
+              <Box className="price-selection-container" style={{ display: 'flex', gap: '40px' }}>
                   {[15,25,35].map(price => (
-                      <button
-                          className="button price-button"
+                      // <button
+                      //     className="button price-button"
+                      //     onClick={() => handlePriceSelect(price)}
+                      //     style={priceButtonStyle}
+                      // >
+                      //     ${price}
+                      // </button>
+
+                      <img
+                          // src={`/gift_${price}.png`} // Replace with the actual image paths
+                          src={`/giftbox/image-1.png`} // Replace with the actual image paths
+                          style={{
+                              width: '50%',
+                              height: '50%',
+                              objectFit: 'cover',
+                              marginTop: '-10px',
+                          }}
                           onClick={() => handlePriceSelect(price)}
-                          style={priceButtonStyle}
-                      >
-                          ${price}
-                      </button>
+                      />
                   ))}
               </Box>
           </Box>
 
       </Box>
-    </div>
+      </div>
   );
 };
 
-const ConfirmWindow = () => (
-    <Dialog className="dialog" open={openConfirm} onClose={handleCancel}>
-        <DialogTitle>Confirm Payment</DialogTitle>
-        <DialogContent>
-            <Typography>Unlock your surprise for ${price} + standard domain registration fee (1 year).</Typography>
-        </DialogContent>
-        <DialogActions>
+    const ConfirmWindow = () => (
+        <Dialog className="dialog" open={openConfirm} onClose={handleCancel}>
+            <DialogTitle>Confirm Payment</DialogTitle>
+            <DialogContent>
+                <Typography>Unlock your surprise for ${price} + standard domain registration fee (1 year).</Typography>
+            </DialogContent>
+            <DialogActions>
             <Button onClick={handleCancel} color="secondary">Cancel</Button>
             <Button onClick={handleConfirm} color="primary">Confirm</Button>
         </DialogActions>
