@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import {Box, Button, Typography} from '@mui/material';
 
 const DomainListCard = ({ domains = [] }) => {
   return (
       <Box className="modal list-modal">
-          <Box style={{ display: 'flex', marginTop: '-30px' }}>
+          <Box style={{display: 'flex', marginTop: '-30px'}}>
               <Typography variant="h3" align="center">
                   Congratulations 🎉 <br/>
                   <Typography variant="h4" align="center">
@@ -14,10 +14,25 @@ const DomainListCard = ({ domains = [] }) => {
 
           </Box>
           {domains.map((domain, index) => (
-              <Typography variant="h6" style={{ fontSize: '70px' , fontWeight: '600' }}>
+              <Typography variant="h6" style={{fontSize: '70px', fontWeight: '600'}}>
                   {domain}
               </Typography>
           ))}
+          <Box style={{display: 'column', marginTop: '100px', gap: '300px'}}>
+              <Button
+                  variant="contained"
+                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px'}}
+              >
+                  Love It!
+              </Button>
+              <Button
+                  variant="contained"
+                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px'}}
+              >
+                  Play Again!
+              </Button>
+          </Box>
+
       </Box>
   );
 };
