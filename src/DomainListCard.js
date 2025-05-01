@@ -40,7 +40,7 @@ const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result, 
                       sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px'}}
                       onClick={() => onRetry(price,'',result.session_id)}
                       disabled={result.remaining_rolls <= 0}
-                  >Play Again! ({result.remaining_rolls} Reties Left)
+                  >Play Again! ({result.remaining_rolls} Retries Left)
                   </Button>
             </Box>
           )}
