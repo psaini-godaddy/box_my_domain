@@ -32,17 +32,17 @@ const ChatBox = ( { domains = [] }) => {
         <Box
             sx={{
                 position: 'fixed',
-                bottom: 20,
-                right: 20,
-                width: 600,
-                height: 500,
-                borderRadius: 2,
+                bottom: 245,
+                right: 50,
+                width: 450,
+                height: 561,
+                borderRadius: 3,
                 boxShadow: 3,
                 backgroundColor: '#fff',
-                border: '1px solid black',
+                border: '3px solid black',
                 display: 'flex',
                 flexDirection: 'column',
-                zIndex: 1000
+                // zIndex: 1000
             }}
         >
             {/* Header */}
@@ -70,7 +70,7 @@ const ChatBox = ( { domains = [] }) => {
                             backgroundColor: msg.sender === 'user' ? '#E6F9EB' : '#F5F5F5',
                             px: 2,
                             py: 1,
-                            borderRadius: 2,
+                            borderRadius: 5,
                             maxWidth: '75%',
                             fontSize: 14
                         }}
