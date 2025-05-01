@@ -133,9 +133,9 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
                   type="text"
                  // value={keyword}
                  // onChange={(e) => setKeyword(e.target.value)}
-                  placeholder="What’s your vibe?  e.g. pizza, coffee ☕️"
+                  placeholder="What’s your Vibe? e.g. pizza, coffee ☕      OR     Skip for a Surprise!"
                   style={{
-                      width: '60%',
+                      width: '70%',
                       padding: '12px 20px',
                       borderRadius: '12px',
                       border: '1px solid #ccc',
@@ -158,7 +158,7 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
 
                       <img
                           // src={`/gift_${price}.png`} // Replace with the actual image paths
-                          src={`/giftbox/image-1.png`} // Replace with the actual image paths
+                          src={`/giftbox/image-1.png`}
                           style={{
                               width: '50%',
                               height: '50%',
