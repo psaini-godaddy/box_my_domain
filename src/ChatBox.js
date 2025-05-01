@@ -121,7 +121,7 @@ const ChatBox = ( { domains = [] }) => {
                             py: 1,
                             borderRadius: 5,
                             maxWidth: '75%',
-                            fontSize: 14
+                            fontSize: 20
                         }}
                     >
                         {msg.text.split('\n').map((line, i) => (
