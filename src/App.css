@@ -30,7 +30,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: auto;
-  min-height: 500px;
+  min-height: 520px;
+  min-width: 1125px;
   justify-content: center;
   align-items: center;
 }
@@ -186,4 +187,9 @@ body {
 .giftbox-container:hover .hover-text {
   visibility: visible;
   opacity: 1;
+}
+
+.domain-card.move-to-side {
+  transform: translate(-240px, -32px); /* Move the card to the left and up */
+  transition: transform 0.5s ease;
 }
