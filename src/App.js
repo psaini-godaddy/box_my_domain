@@ -148,25 +148,24 @@ const PriceSelectionCard = ({ handleQuestion }) =>{
               {/* Price Buttons */}
               <Box className="price-selection-container" style={{ display: 'flex', gap: '40px' }}>
                   {[15,25,35].map(price => (
-                      // <button
-                      //     className="button price-button"
-                      //     onClick={() => handlePriceSelect(price)}
-                      //     style={priceButtonStyle}
-                      // >
-                      //     ${price}
-                      // </button>
-
                       <img
                           // src={`/gift_${price}.png`} // Replace with the actual image paths
                           src={`/giftbox/image-1.png`}
                           style={{
-                              width: '50%',
-                              height: '50%',
+                              width: '200px',
+                              height: '200px',
                               objectFit: 'cover',
                               marginTop: '-10px',
                           }}
                           onClick={() => handlePriceSelect(price)}
                       />
+                  ))}
+              </Box>
+              <Box style={{ display: 'flex', gap: '200px' }}>
+                  {[15,25,35].map(price => (
+                   <Typography style={{ fontSize: '25px', fontWeight: 'bold' }}>
+                       ${price}
+                   </Typography>
                   ))}
               </Box>
           </Box>
