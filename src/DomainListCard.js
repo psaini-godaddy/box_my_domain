@@ -32,7 +32,7 @@ const DomainListCard = ({ domains = [], confirmDomain, onRetry, price, result, f
               </Typography>
           ))}
           {chartData && (
-              <div style={{ marginTop: '40px', width: '100%' }}>
+              <div style={{ marginTop: '-40px', width: '100%' }}>
                   <DomainChart data={chartData} />
               </div>
           )}
