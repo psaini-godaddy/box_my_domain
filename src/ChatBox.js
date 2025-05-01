@@ -33,7 +33,7 @@ const ChatBox = ( { domains = [] }) => {
             sx={{
                 position: 'fixed',
                 bottom: 245,
-                right: 50,
+                right: 20,
                 width: 450,
                 height: 561,
                 borderRadius: 3,
