@@ -142,3 +142,31 @@ body {
   border-radius: 12px;
   margin-top: 20px;
 }
+
+.price-selection-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.price-selection-container img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease, margin 0.3s ease;
+  cursor: pointer;
+}
+
+.price-selection-container img:hover {
+  transform: scale(1.5); /* Zoom in */
+  z-index: 10; /* Bring the hovered image to the front */
+}
+
+.price-selection-container img:hover ~ img {
+  transform: translateX(20px); /* Move the next images to the right */
+}
+
+.price-selection-container img:not(:hover) {
+  transform: translateX(-20px); /* Move the previous images to the left */
+}
