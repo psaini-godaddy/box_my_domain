@@ -285,8 +285,8 @@ document.head.appendChild(styleSheet);
               ) : data ? (
                   <>
                       {
-                          <div className={`domain-card ${fadeOut ? "move-to-side" : ""}`}>
-                              <DomainListCard domains={data} confirmDomain={confirmDomain} onRetry={handleSendMessage} price={price} result={result}/>
+                          <div>
+                              <DomainListCard domains={data} confirmDomain={confirmDomain} onRetry={handleSendMessage} price={price} result={result} fadeOut={fadeOut}/>
                               {launchFireworks()}
                           </div>
                       }
