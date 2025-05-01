@@ -1,292 +1,53 @@
-from fastapi import FastAPI, HTTPException, Query, BackgroundTasks
-app = FastAPI(title="MysteryBox rec api", version="0.1")
+import subprocess
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from dotenv import load_dotenv
+import os
+from fastapi import FastAPI, HTTPException, Query
 import asyncio
-import async_lru
-import aiohttp
 import logging
 import numpy as np
 from scipy.optimize import root_scalar
 import time
+import random
+import uuid
 
-from aiohttp import ClientTimeout
+from contextlib import asynccontextmanager
 
-# from utils import api
-# from models import ShopperInfo
-from fastapi import HTTPException
-
-
-config = {
-  "find_host": "http://haproxy.uswest.prod.domain.gdg:8004",
-  "find_aftermarket_host": "http://haproxy.uswest.prod.domain.gdg:8080",
-  "shoper_rec_host": "http://haproxy.uswest.prod.domain.gdg:8910",
-  "pgen_host": "http://haproxy.uswest.prod.domain.gdg:8094"
-}
+from mystery_api import run_shopper_rec, run_aftermarket_api, run_conversational_api, run_find_api, run_pgen
+from mystery_llm import llm_call_domain_info
 
 
-async def aiohttp_post(url, headers=None, payload=None, timeout=ClientTimeout(total=10)):
-    async with aiohttp.ClientSession(timeout=timeout, raise_for_status=True) as session:
-        async with session.post(url, headers=headers, json=payload) as response:
-            return await response.json()
+scheduler = AsyncIOScheduler()
 
-async def aiohttp_get(url, headers=None, timeout=ClientTimeout(total=10)):
-    async with aiohttp.ClientSession(timeout=timeout, raise_for_status=True) as session:
-        async with session.get(url, headers=headers) as r:
-            return await r.json()
+session_ids = {}  # contains session_id: pool, results, remaining_rolls, total_rolls, price, margin
 
-
-@async_lru.alru_cache(maxsize=1024, ttl=86400)
-async def run_pgen(
-    query,
-    shopper_id: int | str,
-    limit: int = 25,
-    mode: str = "fastvec",
-):
-    prices = {"ai": 89.99, "com": 11.99, "org": 9.99, "net": 12.99}
-
-    find_query = (
-        config["pgen_host"]
-        + "/v1/pgen/getRecommendations?api_key=hackathon&mode={mode}&query={query}&shopper_id={shopper}&num_results={limit}"
-    )
-
-    fq = find_query.format(
-        query=query,
-        shopper=shopper_id,
-        mode=mode,
-        limit=limit,
-    )
-    headers = {
-        "accept": "application/json",
-        "Content-Type": "application/json",
-    }
-    try:
-        response = await aiohttp_get(fq, headers)
-    except Exception as e:
-        logging.error(f"Error in Find call: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error in pgen call: {str(e)}")
-
-    doms = {}
-    for c in response:
-        dom = c["domain"]
-        if not recommendation_check(dom, "pgen"):
-            continue
-        tld = dom.split(".")[-1]
-        if tld not in prices:
-            continue
-        doms[dom] = prices[tld]
-    return doms
-
-
-@async_lru.alru_cache(maxsize=1024, ttl=86400)
-async def run_find_api(
-    query,
-    shopper_id: int | str,
-    limit: int = 25,
-    skip_ads: bool = True,
-    max_price=None
-):
-    find_query = (
-        config["find_host"]
-        + "/v3/name/find?q={query}&server_currency={server_currency}&pagination_size={limit}&user_shopper_id={shopper}"
-        "&user_country_site={country_site_code}&user_language={device_language_setting_code}"
-        "&geo_country_code={country_code}"
-    )
-
-    if skip_ads:
-        find_query += "&debug_config=no_ads%3Bno_logging"
-    else:
-        find_query += "&debug_config=no_logging"
-
-    if max_price is not None:
-        find_query += f"&max_price={max_price}"
-
-    fq = find_query.format(
-        query=query,
-        shopper=shopper_id,
-        limit=limit,
-        server_currency="USD",
-        country_site_code="www",
-        device_language_setting_code="en-us",
-        country_code="us"
-    )
-    headers = {
-        "accept": "application/json",
-        "Content-Type": "application/json",
-        "X-GDFind-APIKey": "find_portfolio_rec",
-    }
-    try:
-        response = await aiohttp_get(fq, headers)
-    except Exception as e:
-        logging.error(f"Error in Find call: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error in Find call: {str(e)}")
-
-    doms = {}
-    spins = response["domains"]
-    for c in spins:
-        if not recommendation_check(c["fqdn"], c["match_source"]):
-            continue
-        if c.get("is_ad", False) and skip_ads:
-            continue
-
-        if "salePrice" in c["price_info"] and c['domain_source'] not in ["premium", "auctions"]:
-            lp = c["price_info"]["salePrice"]
-        elif "listPrice" in c["price_info"] and c['domain_source'] in ["premium", "auctions"]:
-            lp = c["price_info"]["listPrice"]
-        else:
-            lp = None
-        if lp == 78.9:
-            lp = None
-
-        if lp is None:
-            if c["inventory"] in ["available_for_registration", "extensions"]:
-                lp = 11.99
-            else:
-                continue
-        doms[c["fqdn"]] = lp
-    exact = response["exact_domain"]
-    if exact["is_purchasable"]:
-        if "price" in exact:
-            doms[exact["fqdn"]] = exact["price"]
-    return doms
-
-def recommendation_check(domain: str, match_source: str = "") -> bool:
+async def run_bash_commands_and_reload_env():
+    bash_commands = """
+    source ~/.zshrc
+    adev
+    env | grep AWS > .env
+    python3 mystery_get_token.py
     """
-    Check if the domain meets certain recommendation criteria
-    Args:
-        domain (str): The domain to check
-    Returns:
-        bool: True if the domain meets the criteria, False otherwise
-    """
-    # Example criteria: domain should not contain numbers and should be less than 42 characters
-    if len(domain) > 42:
-        return False
-    if domain.count("-") >= 3:
-        return False
-    if "apireseller" in domain and "-" in domain:
-        return False
-    if match_source.startswith("pgen"):
-        if "domain" in domain:
-            return False
-        if "number" in domain:
-            return False
-        if "numeric" in domain:
-            return False
-    return True
+    subprocess.run(["bash", "-c", bash_commands], check=True)
+    # load_dotenv(dotenv_path=".env", override=True)
+    # print("AWS_ACCESS_KEY_ID:", os.getenv("AWS_ACCESS_KEY_ID"))
 
-@async_lru.alru_cache(maxsize=1024, ttl=86400)
-async def run_shopper_rec(shopper_id: int | str, mode: str = "find_conversational"):
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await run_bash_commands_and_reload_env()
+    scheduler.add_job(run_bash_commands_and_reload_env, "interval", minutes=10)
+    scheduler.start()
+    print("Scheduler started.")
 
-    conv_query = (
-        config["shoper_rec_host"] + "/v1/recommendation?shopper_id={shopper_id}&find_api={mode}&limit=20"
-    )
-    cq = conv_query.format(
-        shopper_id=shopper_id.strip().lower(),
-        mode=mode.strip().lower(),
-    )
-    headers = {
-        "Content-Type": "application/json",
-    }
-    try:
-        cresponse = await aiohttp_get(
-            cq,
-            headers=headers,
-        )
-    except Exception as e:
-        logging.error(f"Error in Conv call: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error in Conv call: {str(e)}")
+    yield
 
-    doms = {}
-    for c in cresponse["detailed_results"]:
-        if not recommendation_check(c["domain"]):
-            continue
-        if c["type"] in ["auction", "premium"] and "price" not in c:
-            continue
-        doms[c["domain"]] = c.get("list_price", 11.99)  # simply assume the price is 11.99 for primary names if no pricing info
-    return doms
+    # Shutdown actions
+    scheduler.shutdown()
+    print("Scheduler shut down.")
 
-@async_lru.alru_cache(maxsize=1024, ttl=86400)
-async def run_aftermarket_api(
-    query,
-    shopper_id: int | str,
-    limit: int = 20
-):
-    aftermarket_query = (
-        config["find_aftermarket_host"]
-        + "/v4/aftermarket/find/recommend?query={query}&shopperId={shopper}&paginationSize={count}&useSemanticSearch=true"
-    )
-    headers = {
-        "Content-Type": "application/json",
-    }
 
-    aq = aftermarket_query.format(query=query, shopper=shopper_id, count=limit)
-    try:
-        aresponse = await aiohttp_get(aq, headers=headers)
-    except Exception as e:
-        logging.error(f"Error in Aftermarket call: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error in Aftermarket call: {str(e)}")
-
-    doms = {}
-    for c in aresponse["results"]:
-        if not recommendation_check(c["fqdn"]):
-            continue
-        else:
-            if "afternic" in c:
-                price = c["afternic"]["buy_now_price"]
-            else:
-                price = c["auction"]["auction_price"]
-            doms[c["fqdn"]] = price
-    return doms
-
-@async_lru.alru_cache(maxsize=1024, ttl=86400)
-async def run_conversational_api(query, shopper_id: int | str):
-
-    conv_query = (
-        config["find_host"] + "/v4/name/recommend?"
-        "req_id={req_id}&user_country_site={country_site_code}&user_language={device_language_setting_code}"
-        "&geo_country_code={country_code}"
-        "&server_currency={server_currency}&"
-        "user_shopper_id={shopper_id}&debug_config=no_logging"
-    )
-    cq = conv_query.format(
-        req_id=int(time.time()) * 1000,
-        shopper_id=shopper_id,
-        server_currency="USD",
-        country_site_code="www",
-        device_language_setting_code="en-us",
-        country_code="us",
-    )
-    headers = {
-        "Content-Type": "application/json",
-        "X-GDFind-APIKey": "find_portfolio_rec",
-    }
-    try:
-        cresponse = await aiohttp_post(
-            cq,
-            payload={"search_query": query},
-            headers=headers,
-        )
-    except Exception as e:
-        logging.error(f"Error in Conv call: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error in Conv call: {str(e)}")
-
-    doms = {}
-
-    for c in cresponse["recommended_domains"]:
-        if not recommendation_check(c["fqdn"], c["domain_source"]):
-            continue
-        dtype = c.get("inventory", "primary")
-        if dtype not in ["premium", "auction", "registry_premium", "primary"]:
-            dtype = "primary"
-
-        if "price_info" in c and "salePrice" in c["price_info"]:
-            doms[c['fqdn']] = c["price_info"]["salePrice"]
-        else:
-            if dtype == "primary":
-                doms[c['fqdn']] = 11.99
-            else:
-                continue
-
-    return doms
+app = FastAPI(title="MysteryBox rec api", version="0.2", lifespan=lifespan)
 
 
 def compute_probabilities(A, target_avg, tol=1e-9, max_expand=100):
@@ -335,16 +96,76 @@ def select_with_target_average(doms, target):
     selected_domain = list(doms.keys())[selected_index]
     return selected_domain
 
+def roll(doms, price, margin):
+    # todo: solve edge cases of rolling causing all domain pricing > target or all < target depleted (by pulling more from apis)
+    target_return_val = price * (1 - float(margin))
+    selected_domain = select_with_target_average(doms, target_return_val)
+    selected_domain_price = doms[selected_domain]
+    trial_products = [
+        "website_builder",
+        "online_store_builder",
+        "digital_marketing_tools",
+        "godaddy_pro",
+        ""
+    ]
+    trial_product = random.choice(trial_products)
+    pool = {k: v for k, v in doms.items() if k != selected_domain}
+    return pool, selected_domain, selected_domain_price, trial_product
+
 @app.get("/v1/mystery_box_rec")
-async def mystery_box_rec(price: int, search_query: str = "", shopper_id: str = "", target_margin=0.2) -> dict:
+async def mystery_box_rec(session_id: str=Query(
+                                default="",
+                                title="Session_id of a box",
+                                description="The session ID. For a re-roll, the session ID must be provided, other params can be empty",
+                            ),
+                          price: int=Query(
+                                default=25,
+                                title="Price of the mystery box",
+                                description="The price of the mystery box"
+                            ),
+                          search_query: str = Query(
+                                default="",
+                                title="Search query for the mystery box",
+                                description="The search query for the mystery box. one of shopper_id or search_query must be provided"
+                            ),
+                          shopper_id: str = Query(
+                                default="",
+                                title="Shopper ID",
+                                description="The ID of the shopper. one of shopper_id or search_query must be provided"
+                            ),
+                          target_margin: float=Query(
+                                default=0.1,
+                                title="Target margin",
+                                description="The target margin for the mystery box"
+                            ),
+
+    ) -> dict:
     """
     Function to suggest a mystery box domain based on a search query or shopper ID.
+    """
 
+    """
+    :param session_id: The session ID. For a re-roll, the session ID must be provided, other params can be empty
     :param price: The price of the mystery box
     :param search_query: The search query for the mystery box. one of shopper_id or search_query must be provided
     :param shopper_id: The ID of the shopper. one of shopper_id or search_query must be provided
     :return: A dictionary containing the domain recommendation and its price
     """
+
+    global session_ids
+    if session_id != "" and session_id in session_ids:  # re-roll
+        session_data = session_ids[session_id]
+        remaining_rolls = session_data.get("remaining_rolls", 0)
+        if remaining_rolls > 0:
+            pool, domain, domain_price, trial_product = roll(session_data["pool"], session_data["price"], session_data["margin"])
+            session_ids[session_id]['pool'] = pool
+            session_ids[session_id]['remaining_rolls'] = remaining_rolls - 1
+            res = {"domain": domain, "price": domain_price, "trial_product": trial_product,
+                     "session_id": session_id, "remaining_rolls": remaining_rolls - 1}
+            session_ids[session_id]['results'].append(res)
+            return res
+        else:
+            return session_data['results'][-1]
 
     if not search_query and not shopper_id:
         raise ValueError("Either search_query or shopper_id must be provided.")
@@ -395,8 +216,41 @@ async def mystery_box_rec(price: int, search_query: str = "", shopper_id: str = 
             raise HTTPException(status_code=500, detail="No domains found within the target price range.")
         res.update(find_res)
 
-    selected_domain = select_with_target_average(res, target_return_val)
-    return {"domain": selected_domain, "price": res[selected_domain]}
+    pool, selected_domain, selected_domain_price, trial_product = roll(res, price, target_margin)
+    if session_id == "":
+        session_id = str(uuid.uuid4())
+
+    if int(price) <= 15:
+        remaining_rolls = 1
+    elif int(price) <= 25:
+        remaining_rolls = 3
+    else:
+        remaining_rolls = 5
+
+    res = {"domain": selected_domain, "price": selected_domain_price, "trial_product": trial_product,
+           "session_id": session_id, "remaining_rolls": remaining_rolls}
+    session_ids[session_id] = {"pool": pool,
+                               "results": [res],
+                               "remaining_rolls": remaining_rolls,
+                               "total_rolls": remaining_rolls,
+                               "price": price,
+                               "margin": target_margin}
+
+    return res
+
+@app.get("/v1/llm_domain_info")
+async def llm_domain_info(domain: str):
+    """
+    Function to get domain info using LLM.
+
+    :param domain: The domain name
+    :return: A dictionary containing the domain info
+    """
+    if not domain:
+        raise ValueError("Domain name must be provided.")
+
+    res = await llm_call_domain_info(domain)
+    return {"domain": domain, "info": res}
 
 
 if __name__ == "__main__":
@@ -428,6 +282,7 @@ if __name__ == "__main__":
     #
     # result2 = asyncio.run(run_pgen(query="pizza", shopper_id="131567403", mode="s3"))
     # print("pgen s3: ", result2)
+
 
     import uvicorn
 
