@@ -46,6 +46,7 @@ const App = () => {
     const [showChatBox, setShowChatBox] = useState(false);
     const [fadeOut, setFadeOut] = useState(false);
     const [result, setResult] = useState(null);
+    const [chartData, setChartData] = useState(null);
 
     const confirmDomain = () => {
         setFadeOut(true);
@@ -299,8 +300,9 @@ document.head.appendChild(styleSheet);
                           price={price}
                           result={result}
                           fadeOut={fadeOut}
+                          chartData={chartData}
                       />
-                      {showChatBox && <ChatBox domains={data}/>}
+                      {showChatBox && <ChatBox domains={data} setChartData={setChartData} showChatBox={showChatBox} />}
                   </div>
               ) : (
                   <Typography></Typography>
