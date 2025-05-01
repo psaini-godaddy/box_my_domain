@@ -221,11 +221,11 @@ async def mystery_box_rec(session_id: str=Query(
         session_id = str(uuid.uuid4())
 
     if int(price) <= 15:
-        remaining_rolls = 1
+        remaining_rolls = 0
     elif int(price) <= 25:
-        remaining_rolls = 3
+        remaining_rolls = 2
     else:
-        remaining_rolls = 5
+        remaining_rolls = 4
 
     res = {"domain": selected_domain, "price": selected_domain_price, "trial_product": trial_product,
            "session_id": session_id, "remaining_rolls": remaining_rolls}
