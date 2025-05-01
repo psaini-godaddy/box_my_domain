@@ -259,6 +259,11 @@ document.head.appendChild(styleSheet);
             const result = response.data.result[0];
             setResult(result);
             console.log('result:', result);
+            if (result.remaining_rolls <= 0) {
+                setTimeout(() => {
+                    confirmDomain();
+                }, 2000); // 2000 milliseconds = 2 seconds
+            }
 
         } catch (error) {
             console.error('Error sending message:', error);
@@ -287,7 +292,6 @@ document.head.appendChild(styleSheet);
                       {
                           <div>
                               <DomainListCard domains={data} confirmDomain={confirmDomain} onRetry={handleSendMessage} price={price} result={result} fadeOut={fadeOut}/>
-                              {launchFireworks()}
                           </div>
                       }
                       {showChatBox && (
