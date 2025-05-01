@@ -75,7 +75,7 @@ body {
   left: 73.1%;
   width: 27vw;
   height: 57vh;
-  animation: wobble 7s ease-in-out infinite; /* Total duration: 2s wobble + 5s pause */
+  animation: wobble 0.5s ease-in-out infinite;
 }
 
 .mysteryBox img.foreground-box.no-wobble {
@@ -98,17 +98,17 @@ body {
   z-index: -1; /* Ensure it stays behind the foreground box */
 }
 @keyframes wobble {
-  0%, 20%, 100% {
+  0%, 40%, 100% {
     transform: rotate(0deg);
   }
   25% {
-    transform: rotate(-5deg);
+    transform: rotate(-2deg);
   }
   50% {
-    transform: rotate(5deg);
+    transform: rotate(2deg);
   }
   75% {
-    transform: rotate(-5deg);
+    transform: rotate(-2deg);
   }
 }
 
