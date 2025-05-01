@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button, Typography} from '@mui/material';
 
-const DomainListCard = ({ domains = [] , confirmDomain}) => {
+const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result}) => {
   return (
       <Box className="modal list-modal">
           <Box style={{display: 'flex', marginTop: '-30px'}}>
@@ -21,7 +21,7 @@ const DomainListCard = ({ domains = [] , confirmDomain}) => {
           <Box style={{display: 'column', marginTop: '100px'}}>
               <Button
                   variant="contained"
-                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px', marginRight: '300px'}}
+                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px', marginRight: '200px'}}
                   onClick={confirmDomain}
               >
                   Love It!
@@ -29,8 +29,9 @@ const DomainListCard = ({ domains = [] , confirmDomain}) => {
               <Button
                   variant="contained"
                   sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px'}}
-              >
-                  Play Again!
+                  onClick={() => onRetry(price,'',result.session_id)}
+                  disabled={result.remaining_rolls <= 0}
+              >Play Again! ({result.remaining_rolls} Reties Left)
               </Button>
           </Box>
 
