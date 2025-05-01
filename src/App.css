@@ -187,3 +187,14 @@ body {
   visibility: visible;
   opacity: 1;
 }
+
+.result-wrapper.with-bg::before {
+  margin-top: 30px;
+  margin-left: -800px;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url('../public/white_bg.png'); /* Replace with your background image path */
+  opacity: 100; /* Adjust for subtlety */
+}
