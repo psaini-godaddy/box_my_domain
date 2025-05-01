@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 
-const ChatBox = ({ domains = [], setChartData, showChatBox }) => {
+const ChatBox = ({ domains = [], setChartData, showChatBox , sessionId}) => {
     const [messages, setMessages] = useState([
         {
             text: `🎉 You just unlocked ${domains.join(', ')}! Wondering how valuable it is? ` +
@@ -28,7 +28,7 @@ const ChatBox = ({ domains = [], setChartData, showChatBox }) => {
 
         try {
             const response = await fetch(
-                `http://localhost:8001/get_domain_go_value?domain=${encodeURIComponent(combined)}`
+                `http://localhost:8001/mcp/plan_excute?domain=${userMessage}&session_id=${sessionId}`
             );
 
             const data = await response.json();
@@ -57,11 +57,11 @@ const ChatBox = ({ domains = [], setChartData, showChatBox }) => {
                 `;
 
             const chartData = [
-                { category: 'Traffic & Engagement', rating: result["Traffic & Engagement"]?.rating || 0 },
-                { category: 'Keyword & SEO Value', rating: result["Keyword & SEO Value"]?.rating || 0 },
-                { category: 'SLD Structure & Length', rating: result["SLD Structure & Length"]?.rating || 0 },
-                { category: 'Brandability & Positioning', rating: result["Brandability & Positioning"]?.rating || 0 },
-                { category: 'Trustworthiness & TLD', rating: result["Trustworthiness & TLD"]?.rating || 0 },
+                { category: 'Traffic & Engagement', rating: result["Traffic & Engagement"]?.rating || 0, fill: '#ff6b6b' },
+                { category: 'Keyword & SEO Value', rating: result["Keyword & SEO Value"]?.rating || 0, fill: '#ffa94d' },
+                { category: 'SLD Structure & Length', rating: result["SLD Structure & Length"]?.rating || 0,  fill: '#4dabf7' },
+                { category: 'Brandability & Positioning', rating: result["Brandability & Positioning"]?.rating || 0,fill: '#f9c74f' },
+                { category: 'Trustworthiness & TLD', rating: result["Trustworthiness & TLD"]?.rating || 0, fill: '#69db7c' },
             ];
 
             setChartData(chartData);
