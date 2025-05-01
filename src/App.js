@@ -45,6 +45,7 @@ const App = () => {
     const [showDomainCard, setShowDomainCard] = useState(true);
     const [showChatBox, setShowChatBox] = useState(false);
     const [fadeOut, setFadeOut] = useState(false);
+    const [result, setResult] = useState(null);
 
     const confirmDomain = () => {
         setFadeOut(true);
@@ -240,15 +241,24 @@ document.head.appendChild(styleSheet);
     setOpen(false);
       setChangeImage(false)
   };
-    const handleSendMessage = async (price, keyword) => {
+    const handleSendMessage = async (price, keyword = 'none', session_id = 'none') => {
         try {
+
+            const params = keyword
+                ? { price, search_query: keyword }
+                : { price, session_id: session_id };
             const response = await axios.get('http://localhost:8001/domain_draw', {
-                params: { price, search_query: keyword }
+                params
             }, { withCredentials: true });
 
             const data = response.data.result.map(item => item.domain);
             setData(data);
 
+            console.log('response:', response);
+
+            const result = response.data.result[0];
+            setResult(result);
+            console.log('result:', result);
 
         } catch (error) {
             console.error('Error sending message:', error);
@@ -276,7 +286,7 @@ document.head.appendChild(styleSheet);
                   <>
                       {
                           <div className={`domain-card ${fadeOut ? "move-to-side" : ""}`}>
-                              <DomainListCard domains={data} confirmDomain={confirmDomain}/>
+                              <DomainListCard domains={data} confirmDomain={confirmDomain} onRetry={handleSendMessage} price={price} result={result}/>
                               {launchFireworks()}
                           </div>
                       }
@@ -285,7 +295,7 @@ document.head.appendChild(styleSheet);
                       )}
                   </>
               ) : (
-                  <Typography>Loading...</Typography>
+                  <Typography></Typography>
               )}
           </Modal>
       </div>
