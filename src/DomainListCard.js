@@ -1,8 +1,9 @@
 import React from 'react';
 import {Box, Button, Typography} from '@mui/material';
+import DomainChart from './DomainChart';
 
-const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result, fadeOut}) => {
-  return (
+const DomainListCard = ({ domains = [], confirmDomain, onRetry, price, result, fadeOut, chartData }) => {
+    return (
       <Box
           className="modal list-modal"
           sx={{
@@ -10,8 +11,12 @@ const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result, 
               height: fadeOut ? '550px' : '600px',
               transform: fadeOut ? 'translate(-420px, 4px)' : 'translate(0, 0)',
               transition: 'transform 0.5s ease',
+              borderRight : fadeOut ? 'none': '3px solid black',
+              borderTopRightRadius: fadeOut ? '0px': '12px',
+              borderBottomRightRadius: fadeOut ? '0px' : '12px',
           }}
       >
+          {!chartData && (
           <Box style={{display: 'flex', marginTop : fadeOut ? '80px': '0px'}}>
               <Typography variant="h3" align="center">
                   Congratulations 🎉 <br/>
@@ -19,13 +24,18 @@ const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result, 
                       Enjoy your new domain and make the most of it 🚀
                   </Typography>
               </Typography>
-
           </Box>
+          )}
           {domains.map((domain, index) => (
               <Typography variant="h6" style={{fontSize: '70px', fontWeight: '600', padding: '50px'}}>
                   {domain}
               </Typography>
           ))}
+          {chartData && (
+              <div style={{ marginTop: '40px', width: '100%' }}>
+                  <DomainChart data={chartData} />
+              </div>
+          )}
           {!fadeOut && (
               <Box style={{display: 'column'}}>
                   <Button
