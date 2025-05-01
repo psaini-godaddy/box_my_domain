@@ -92,8 +92,8 @@ const ChatBox = ({ domains = [], setChartData, showChatBox }) => {
             sx={{
                 position: 'fixed',
                 bottom: 194,
-                right: 88,
-                width: 820,
+                right: 78,
+                width: 830,
                 height: 590,
                 borderRadius: 5,
                 boxShadow: 3,
