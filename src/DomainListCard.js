@@ -21,7 +21,7 @@ const DomainListCard = ({ domains = [] , confirmDomain, onRetry, price, result})
           <Box style={{display: 'column', marginTop: '100px'}}>
               <Button
                   variant="contained"
-                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px', marginRight: '200px'}}
+                  sx={{ backgroundColor: 'teal', textTransform: 'none', px: 3 , fontSize:'30px', marginRight: '100px'}}
                   onClick={confirmDomain}
               >
                   Love It!
