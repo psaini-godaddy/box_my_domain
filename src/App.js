@@ -271,16 +271,18 @@ document.head.appendChild(styleSheet);
     };
 
   return (
-      <div style={{textAlign: 'center', marginTop: '50px'}}>
-          <div id="mysteryBox" className="mysteryBox">
-              <img src="/white_box.png" alt="White Box" className="background-box"/>
-              <img
-                  src={changeImage ? "/gold_box_after.png" : "/gold_box_8.png"}
-                  alt="Mystery Box"
-                  className={`foreground-box ${changeImage ? "no-wobble" : ""}`}
-                  onClick={handleOpen}
-              />
-          </div>
+      <div className={`result-wrapper ${fadeOut ? 'with-bg' : ''}`} style={{textAlign: 'center', marginTop: '50px'}}>
+          {!fadeOut && (
+              <div id="mysteryBox" className="mysteryBox">
+                  <img src="/white_box.png" alt="White Box" className="background-box" />
+                  <img
+                      src={changeImage ? "/gold_box_after.png" : "/gold_box_8.png"}
+                      alt="Mystery Box"
+                      className={`foreground-box ${changeImage ? "no-wobble" : ""}`}
+                      onClick={handleOpen}
+                  />
+              </div>
+          )}
 
           <Modal open={open} onClose={handleClose} className='modal-container'>
               {image ? (
@@ -288,16 +290,17 @@ document.head.appendChild(styleSheet);
               ) : openConfirm ? (
                   <ConfirmWindow/>
               ) : data ? (
-                  <>
-                      {
-                          <div>
-                              <DomainListCard domains={data} confirmDomain={confirmDomain} onRetry={handleSendMessage} price={price} result={result} fadeOut={fadeOut}/>
-                          </div>
-                      }
-                      {showChatBox && (
-                          <ChatBox domains={data}/>
-                      )}
-                  </>
+                  <div >
+                      <DomainListCard
+                          domains={data}
+                          confirmDomain={confirmDomain}
+                          onRetry={handleSendMessage}
+                          price={price}
+                          result={result}
+                          fadeOut={fadeOut}
+                      />
+                      {showChatBox && <ChatBox domains={data}/>}
+                  </div>
               ) : (
                   <Typography></Typography>
               )}
