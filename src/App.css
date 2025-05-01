@@ -29,8 +29,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: auto;
-  min-height: 520px;
+  /*height: auto;*/
+  min-height: 521px;
   min-width: 1125px;
   justify-content: center;
   align-items: center;
@@ -191,6 +191,6 @@ body {
 }
 
 .domain-card.move-to-side {
-  transform: translate(-208px, -32px); /* Move the card to the left and up */
+  transform: translate(-208px, 17px); /* Move the card to the left and up */
   transition: transform 0.5s ease;
 }
