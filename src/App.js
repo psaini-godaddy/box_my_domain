@@ -290,12 +290,12 @@ document.head.appendChild(styleSheet);
                   <ConfirmWindow/>
               ) : data ? (
                   <>
-                      {showDomainCard && (
-                          <div className={`fade-wrapper ${fadeOut ? 'fade-out' : ''}`}>
+                      {
+                          <div className={`domain-card ${fadeOut ? "move-to-side" : ""}`}>
                               <DomainListCard domains={data}/>
                               {launchFireworks()}
                           </div>
-                      )}
+                      }
                       {showChatBox && (
                           <ChatBox domains={data}/>
                       )}
