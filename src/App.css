@@ -20,7 +20,6 @@ body {
 
 .modal {
   display: flex;
-  width: 40vw;
   background-color: white;
   border: 3px solid black;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
@@ -30,19 +29,18 @@ body {
   flex-direction: column;
   justify-content: space-between;
   /*height: auto;*/
-  min-height: 521px;
-  min-width: 1125px;
   justify-content: center;
   align-items: center;
   align-items: center;
 }
 
 .list-modal{
-  width: 50vw;
   background-image: url('./bg-card.png');
   background-position: center;
   background-size: 120% 100%;
   color: #01a4a6;
+  height: 521px;
+  width: 1125px;
 }
 
 .button {
@@ -188,9 +186,4 @@ body {
 .giftbox-container:hover .hover-text {
   visibility: visible;
   opacity: 1;
-}
-
-.domain-card.move-to-side {
-  transform: translate(-208px, 17px); /* Move the card to the left and up */
-  transition: transform 0.5s ease;
 }
