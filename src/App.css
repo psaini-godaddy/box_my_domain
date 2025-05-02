@@ -1,42 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -44,7 +5,6 @@ body {
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  /*margin-top: 100px;*/
   height: 100vh;
   width: 100vw;
   overflow: hidden; /* Prevent scrollbars */
@@ -58,19 +18,8 @@ body {
   min-height: 100vh;
 }
 
-.hidden {
-  text-align: center;
-  background: transparent;
-  border: none;
-}
-
-.hidden:hover {
-  cursor: pointer;
-}
-
 .modal {
   display: flex;
-  width: 40vw;
   background-color: white;
   border: 3px solid black;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
@@ -79,183 +28,19 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: auto;
-  min-height: 500px;
+  /*height: auto;*/
   justify-content: center;
   align-items: center;
-}
-.image-title {
-  border-radius: 4px;
-  text-align: center;
-  align-content: center;
-  font-size: 160%;
-  height: 100%;
-  width: 100%;
-  margin-bottom: 20px;
-  background-color: #01a4a6;
-  color: white;
-}
-
-.drag-drop-area {
-  border: 2px dashed #ccc;
-  width: 95%;
-  padding: 20px;
-  text-align: center;
-  margin: 0px 0px 20px 0;
-  height: 200px;
-  overflow: hidden; /* Prevent image overflow */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.image-text {
-  width: 100%;
-}
-
-.question-card{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url('./bg-card.png');
-  background-position: center;
-  background-size: 120% 100%;
-}
-
-.progress-bar-container {
-  width: 100%;
-  height: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
   align-items: center;
 }
 
-.question-title-container {
-  display: flex;
-  align-items: center;
-  color: #01a4a6;
-  min-width: 600px;
-}
-
-.question-title {
-  display: flex;
-  border-radius: 4px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 5px 6vw;
-  text-align: center;
-  font-size: 200%;
-  height: 100%;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.grid-container {
-  margin: 50px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 17px 30px;
-  margin-bottom: 100px;
-}
-
-.option-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100px;
-  color: white;
-  background-color: #01a4a6;
-  font-size: 130%;
-  min-width: 250px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  padding: 20px;
-  min-height: 5px;
-  text-align: center;
-  box-sizing: border-box;
-  border: 2px solid transparent;
-}
-
-.option-button:hover {
-  background-color: white;
-  border: 2px solid #01a4a6;
-  color: #01a4a6;
-}
 .list-modal{
-  width: 80vw;
   background-image: url('./bg-card.png');
   background-position: center;
   background-size: 120% 100%;
-}
-
-.list-card {
-  border-radius: 4px;
-  text-align: center;
   color: #01a4a6;
-  font-size: 18px;
-  overflow: scroll;
-  scrollbar-width: none;
-  max-height: 800px;
-  width: 80%;
-}
-
-.skip-button {
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.skip-button:hover {
-  background: #0056b3;
-}
-
-.uploaded-image {
-  max-width: 100%; /* Ensure image fits within the box width */
-  max-height: 100%; /* Ensure image fits within the box height */
-  object-fit: contain; /* Scale the image to fit while maintaining aspect ratio */
-  
-}
-
-.input-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 20px;
-}
-
-.text-input {
-  width: 80%;
-  height: 100px;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 25px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  resize: none;
-  vertical-align: top; /* Ensures the text starts at the top */
-  line-height: 1.5; /* Adjust line height if needed */
-  text-align: left; /* Aligns text to the left (default) */
-}
-
-.text-input:focus {
-  border-color: #111111; /* Change border color on focus */
-  box-shadow: 0 0 10px #111111; /* Add a subtle shadow effect */
-}
-.text-input::placeholder {
-  font-size: 30px;
-  color: #78787888;
-  text-align: center;
+  height: 521px;
+  width: 1125px;
 }
 
 .button {
@@ -279,64 +64,137 @@ body {
   transform: translateY(-2px); /* Slight lift effect */
 }
 
-.text-button {
-  width: 200px;
-  background-color: #01a4a6;
-  color: white;
-  transition: 0.5s;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.text-button:hover {
-  background-color: #01b9bc;
-}
-
-
-
-.company-logo {
-  width: 200px; /* Ensure the logo has a fixed width */
-  height: auto; /* Maintain aspect ratio */
-}
-
-.logo-column {
-  flex: 0 0 30px; /* Fixed width of 30px */
-  display: flex;
-  justify-content: center; /* Center the logo horizontally */
-  align-items: center; /* Center the logo vertically */
-}
-
-.image-button {
-  width: 200px;
-  background-color: #01a4a6;
-  color: white;
-  transition: 0.5s;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.image-button:hover {
-  background-color: #01b9bc;
-}
-
-.info-icon {
-  max-width: 40%;
-}
-
-.text-title {
-  display: flex;
-  justify-content: center;
-}
-
 .list-item {
   background-color: #fff;
 }
 
-.mysteryBox img {
+.mysteryBox img.foreground-box {
   border-radius: 24px;
   position: absolute;
-  top: 23.5%;
-  left: 73%;
-  width: 23.5vw;
-  height: 57.5vh;
+  top: 23.2%;
+  left: 73.1%;
+  width: 27vw;
+  height: 57vh;
+  animation: wobble 1s ease-in-out infinite;
+}
+
+.mysteryBox img.foreground-box.no-wobble {
+  border-radius: 24px;
+  position: absolute;
+  top: 23.2%;
+  left: 73.1%;
+  width: 25vw;
+  height: 57vh;
+  animation: none; /* Disable wobble animation */
+}
+
+.mysteryBox img.background-box {
+  border-radius: 24px;
+  position: absolute;
+  top: 22%;
+  left: 72%;
+  width: 30vw;
+  height: 60vh;
+  z-index: -1; /* Ensure it stays behind the foreground box */
+}
+@keyframes wobble {
+  0%, 40%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+}
+
+.dialog{
+  margin-top: 10vh;
+  align-items: center;
+}
+.dialog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.MuiDialogTitle-root {
+  text-align: center;
+  font-size: 30px;
+}
+
+.fade-wrapper {
+  transition: opacity 2s ease;
+  opacity: 1;
+}
+
+.fade-wrapper.fade-out {
+  opacity: 0;
+}
+
+.chat-box {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.price-selection-container {
+  height: 170px;
+}
+
+.price-selection-container img {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, margin 0.3s ease;
+  cursor: pointer;
+}
+
+.price-selection-container img:hover {
+  transform: scale(1.75); /* Zoom in */
+  z-index: 10; /* Bring the hovered image to the front */
+}
+
+.giftbox-container {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 10000;
+  bottom: 10%; /* Position above the image */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 16px;
+}
+
+.giftbox-container:hover .hover-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.result-wrapper.with-bg::before {
+  margin-top: 30px;
+  margin-left: -800px;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url('../public/white_bg.png'); /* Replace with your background image path */
+  opacity: 100; /* Adjust for subtlety */
 }
