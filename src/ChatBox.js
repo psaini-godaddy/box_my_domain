@@ -155,9 +155,30 @@ const ChatBox = ({ domains = [], setChartData, showChatBox , sessionId}) => {
                             fontSize: 20
                         }}
                     >
-                        {msg.text.split('\n').map((line, i) => (
-                            <div key={i}>{line}</div>
-                        ))}
+                        {msg.text.split('\n').map((line, i) => {
+                            const urlRegex = /(https?:\/\/[^\s]+)/g;
+                            const parts = line.split(urlRegex);
+
+                            return (
+                                <div key={i}>
+                                    {parts.map((part, j) =>
+                                        urlRegex.test(part) ? (
+                                            <a
+                                                key={j}
+                                                href={part}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{ color: 'teal', textDecoration: 'underline' }}
+                                            >
+                                                {part}
+                                            </a>
+                                        ) : (
+                                            <span key={j}>{part}</span>
+                                        )
+                                    )}
+                                </div>
+                            );
+                        })}
                     </Box>
                 ))}
                 <div ref={chatEndRef} />
