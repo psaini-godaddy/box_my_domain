@@ -18,7 +18,7 @@ const ChatBox = ({ domains = [], setChartData, showChatBox , sessionId}) => {
 
         const userMessage = input.trim();
         const domain = domains[0] || ''; // Fallback if no domain found
-        const combined = `${userMessage} ${domain}`;
+        const combined = `${userMessage} , domain_name=${domain}`;
 
         setMessages(prev => [...prev, { text: userMessage, sender: 'user' }]);
         setInput('');
@@ -27,9 +27,15 @@ const ChatBox = ({ domains = [], setChartData, showChatBox , sessionId}) => {
         setMessages(prev => [...prev, { text: 'Got it! Let me look that up for you... 🔍', sender: 'bot' }]);
 
         try {
-            const response = await fetch(
-                `http://localhost:8001/mcp/plan_excute?domain=${userMessage}&session_id=${sessionId}`
-            );
+            const response = await fetch('http://localhost:8002/mcp/plan_excute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: combined,
+                }),
+            });
 
             const data = await response.json();
             const result = data.result?.[0];
