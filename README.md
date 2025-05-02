@@ -18,15 +18,11 @@
 ## 📂 Project Structure
 
 box_my_domain/
-├── public/ # Static assets for React
-
-├── src/ # React.js frontend source
-
-├── server/ # FastAPI backend
-
-├── mcp_tools/ # Domain tools & automation logic
-
-├── README.md # This file
+├── public/ # Static assets for React<br />
+├── src/ # React.js frontend source<br />
+├── server/ # FastAPI backend<br />
+├── mcp_tools/ # Domain tools & automation logic<br />
+├── README.md # Project documentation (this file)<br />
 
 ---
 
