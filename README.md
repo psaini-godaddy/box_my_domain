@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# 📦 box_my_domain
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**box_my_domain** is a mystery box experience for domain names, powered by AI. It allows users to draw random domains, evaluate their value, and take action — such as reselling, parking for profit, or building a site using Airo. A smart agent guides users through onboarding, making domain ownership easy and fun.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- 🎲 Draw a random domain name and re-roll for a new selection  
+- 🧠 Evaluate domain quality using AI and multiple attributes  
+- 💸 Resell domains on integrated marketplaces  
+- 🅿️ Park domains to earn passive revenue  
+- 🔗 Redirect domains to Airo for quick website creation  
+- 🤖 Smart onboarding agent to guide users through domain setup and options  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📂 Project Structure
 
-### `npm test`
+box_my_domain/
+├── public/ # Static assets for React
+├── src/ # React.js frontend source
+├── server/ # FastAPI backend
+├── mcp_tools/ # Domain tools & automation logic
+├── README.md # This file
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🛠️ Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### ⚙️ Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [Node.js](https://nodejs.org/) (v18+ recommended)  
+- [Poetry](https://python-poetry.org/) (v1.6+)  
+- [Python](https://www.python.org/downloads/) (>=3.10)  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🧩 Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 1. Clone the Repository
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+git clone https://github.com/your-username/box_my_domain.git
+cd box_my_domain
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 2. Frontend Setup (React.js)
+cd src
+npm install
+npm run dev  # or npm start
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. Backend Setup (FastAPI + Poetry)
 
-## Learn More
+cd ../server
+poetry install
+poetry shell
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Set up environment variables (via .env or export)
+export GODADDY_API_KEY=your_key
+export GODADDY_API_SECRET=your_secret
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Start the FastAPI server
+uvicorn main:app --reload
 
-### Code Splitting
+### 4. gAI MCP Server tool Registry
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
