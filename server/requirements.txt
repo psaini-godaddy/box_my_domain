@@ -1,0 +1,3 @@
+fastapi==0.115.12  # (pypi.org)
+uvicorn[standard]==0.34.2  # (pypi.org)
+requests
