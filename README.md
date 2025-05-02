@@ -39,26 +39,32 @@ box_my_domain/ <br />
 ## 🧩 Installation
 
 ### 1. Clone the Repository
-
+```
 git clone https://github.com/your-username/box_my_domain.git
 cd box_my_domain
+```
 ### 2. Frontend Setup (React.js)
+```
 cd src
 npm install
 npm run dev  # or npm start
-
+```
 ### 3. Backend Setup (FastAPI + Poetry)
-
+```
 cd ../server
 poetry install
 poetry shell
-
+```
 # Set up environment variables (via .env or export)
+```
 export GODADDY_API_KEY=your_key
 export GODADDY_API_SECRET=your_secret
-
+```
 # Start the FastAPI server
+```
 uvicorn main:app --reload
-
+```
 ### 4. gAI MCP Server tool Registry
-
+# deploy code to s3 mcp artifact bucket
+# run tools/register through 
+more info on gAI MCP Client(https://dridata-gdai-custom-browser-cl-0-dev-private.dridata-dev-private.prod.onkatana.net/)
