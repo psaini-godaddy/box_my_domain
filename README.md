@@ -19,9 +19,13 @@
 
 box_my_domain/
 ├── public/ # Static assets for React
+
 ├── src/ # React.js frontend source
+
 ├── server/ # FastAPI backend
+
 ├── mcp_tools/ # Domain tools & automation logic
+
 ├── README.md # This file
 
 ---
