@@ -47,6 +47,7 @@ const App = () => {
     const [fadeOut, setFadeOut] = useState(false);
     const [result, setResult] = useState(null);
     const [chartData, setChartData] = useState(null);
+    const [sessionId, setSessionId]= useState('');
 
     const confirmDomain = () => {
         setFadeOut(true);
@@ -249,7 +250,7 @@ document.head.appendChild(styleSheet);
             const params = keyword
                 ? { price, search_query: keyword }
                 : { price, session_id: session_id };
-            const response = await axios.get('http://localhost:8001/domain_draw', {
+            const response = await axios.get('http://localhost:8002/domain_draw', {
                 params
             }, { withCredentials: true });
 
@@ -261,6 +262,9 @@ document.head.appendChild(styleSheet);
             const result = response.data.result[0];
             setResult(result);
             console.log('result:', result);
+            console.log('session_id:', result.session_id);
+            setSessionId(result.session_id);
+            console.log('ss ', sessionId);
             if (result.remaining_rolls <= 0) {
                 setTimeout(() => {
                     confirmDomain();
@@ -302,7 +306,7 @@ document.head.appendChild(styleSheet);
                           fadeOut={fadeOut}
                           chartData={chartData}
                       />
-                      {showChatBox && <ChatBox domains={data} setChartData={setChartData} showChatBox={showChatBox} />}
+                      {showChatBox && <ChatBox domains={data} setChartData={setChartData} showChatBox={showChatBox} sessionId={sessionId}/>}
                   </div>
               ) : (
                   <Typography></Typography>
