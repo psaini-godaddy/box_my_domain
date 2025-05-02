@@ -55,16 +55,16 @@ cd ../server
 poetry install
 poetry shell
 ```
-# Set up environment variables (via .env or export)
+#### Set up environment variables (via .env or export)
 ```
 export GODADDY_API_KEY=your_key
 export GODADDY_API_SECRET=your_secret
 ```
-# Start the FastAPI server
+##### Start the FastAPI server
 ```
 uvicorn main:app --reload
 ```
 ### 4. gAI MCP Server tool Registry
-# deploy code to s3 mcp artifact bucket
-# run tools/register through 
+1. deploy code to s3 mcp artifact bucket
+2. run tools/register through 
 more info on gAI MCP Client(https://dridata-gdai-custom-browser-cl-0-dev-private.dridata-dev-private.prod.onkatana.net/)
