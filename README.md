@@ -17,7 +17,7 @@
 
 ## 📂 Project Structure
 
-box_my_domain/
+box_my_domain/ <br />
 ├── public/ # Static assets for React<br />
 ├── src/ # React.js frontend source<br />
 ├── server/ # FastAPI backend<br />
