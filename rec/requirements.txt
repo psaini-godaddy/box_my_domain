@@ -1,0 +1,6 @@
+scipy
+numpy
+async_lru
+aiohttp
+fastapi
+gd_auth
