@@ -39,39 +39,50 @@ const ChatBox = ({ domains = [], setChartData, showChatBox , sessionId}) => {
 
             const data = await response.json();
             const result = data.result?.[0];
-            if (!result || !result["Domain Name"]) {
+            if (!result) {
                 throw new Error("No domain analysis found.");
             }
 
-            const reply = `
-                🔍 Domain Analysis for **${result["Domain Name"]}**:
-                
-                📈 **Traffic & Engagement**: ${result["Traffic & Engagement"].summary}
-                ⭐ Rating: ${result["Traffic & Engagement"].rating}/10
-                
-                🔑 **Keyword & SEO Value**: ${result["Keyword & SEO Value"].summary}
-                ⭐ Rating: ${result["Keyword & SEO Value"].rating}/10
-                
-                ✍️ **SLD Structure & Length**: ${result["SLD Structure & Length"].summary}
-                ⭐ Rating: ${result["SLD Structure & Length"].rating}/10
-                
-                🎯 **Brandability & Positioning**: ${result["Brandability & Positioning"].summary}
-                ⭐ Rating: ${result["Brandability & Positioning"].rating}/10
-                
-                🔐 **Trustworthiness & TLD**: ${result["Trustworthiness & TLD"].summary}
-                ⭐ Rating: ${result["Trustworthiness & TLD"].rating}/10
-                `;
+            const reply = result.message;
 
-            const chartData = [
-                { category: 'Traffic & Engagement', rating: result["Traffic & Engagement"]?.rating || 0, fill: '#ff6b6b' },
-                { category: 'Keyword & SEO Value', rating: result["Keyword & SEO Value"]?.rating || 0, fill: '#ffa94d' },
-                { category: 'SLD Structure & Length', rating: result["SLD Structure & Length"]?.rating || 0,  fill: '#4dabf7' },
-                { category: 'Brandability & Positioning', rating: result["Brandability & Positioning"]?.rating || 0,fill: '#f9c74f' },
-                { category: 'Trustworthiness & TLD', rating: result["Trustworthiness & TLD"]?.rating || 0, fill: '#69db7c' },
-            ];
+            let chartData = [];
 
-            setChartData(chartData);
-            console.log("chartData ", chartData);
+            const evaluation = result.results.find(
+                (r) => r.domain_evaluation_tool
+            )?.domain_evaluation_tool;
+
+            const govalue = result.results.find(
+                (r) => r.domain_govalue_tool
+            )?.domain_govalue_tool?.valuation_data;
+
+            if (evaluation) {
+                chartData = [
+                    {
+                        category: 'Keyword & SEO Value',
+                        rating: evaluation["Keyword & SEO Value"]?.rating || 0,
+                        fill: '#ffa94d',
+                    },
+                    {
+                        category: 'SLD Structure & Length',
+                        rating: evaluation["SLD Structure & Length"]?.rating || 0,
+                        fill: '#4dabf7',
+                    },
+                    {
+                        category: 'Brandability & Positioning',
+                        rating: evaluation["Brandability & Positioning"]?.rating || 0,
+                        fill: '#f9c74f',
+                    },
+                    {
+                        category: 'Trustworthiness & TLD',
+                        rating: evaluation["Trustworthiness & TLD"]?.rating || 0,
+                        fill: '#69db7c',
+                    },
+                ];
+                setChartData(chartData);
+                console.log("chartData ", chartData);
+            }
+
+
 
             setMessages(prev => {
                 const updated = [...prev];
