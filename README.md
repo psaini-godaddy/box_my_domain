@@ -40,10 +40,8 @@ box_my_domain/ <br />
 
 ### 1. Clone the Repository
 
-```bash
 git clone https://github.com/your-username/box_my_domain.git
 cd box_my_domain
-
 ### 2. Frontend Setup (React.js)
 cd src
 npm install
